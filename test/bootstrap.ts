@@ -6,3 +6,10 @@ sinon.stub(storefront, 'view');
 
 mock('../src/breadcrumbs/index.html', {});
 mock('../src/breadcrumbs/index.css', {});
+mock('../src/clear-query/index.html', {});
+mock('../src/clear-refinement/index.html', {});
+mock('../src/corrected-query/index.html', {});
+mock('../src/original-query/index.html', {});
+mock('../src/query-crumb/index.html', {});
+mock('../src/refinement-crumb/index.html', {});
+mock('../src/refinement-crumbs/index.html', {});
