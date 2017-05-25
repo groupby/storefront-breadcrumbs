@@ -1,5 +1,4 @@
-import { view, Component, Events } from '@storefront/core';
-import { Selectors } from '@storefront/flux-capacitor';
+import { view, Component, Events, Selectors } from '@storefront/core';
 
 @view('gb-breadcrumbs', require('./index.html'), require('./index.css'), [
   { name: 'showLabels', default: true },

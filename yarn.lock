@@ -36,8 +36,8 @@
     github-url-from-git "^1.4.0"
 
 "@storefront/core@dev":
-  version "0.0.14-development"
-  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-0.0.14-development.tgz#5e5f81d52483a182359425fab6c3c0a19f052711"
+  version "0.0.15-development"
+  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-0.0.15-development.tgz#db26d29ace1ad4ecc052ede61072045f5e81f0a2"
   dependencies:
     "@storefront/flux-capacitor" dev
     "@types/deep-assign" "^0.1.0"
@@ -1322,7 +1322,7 @@ dateformat@^1.0.11:
     get-stdin "^4.0.1"
     meow "^3.3.0"
 
-debug@2, debug@^2.1.1, debug@^2.1.3, debug@^2.6.3:
+debug@2, debug@^2.1.3, debug@^2.6.3:
   version "2.6.8"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.8.tgz#e731531ca2ede27d188222427da17821d68ff4fc"
   dependencies:
@@ -1334,7 +1334,7 @@ debug@2.2.0, debug@^2.2.0:
   dependencies:
     ms "0.7.1"
 
-debug@2.6.0:
+debug@2.6.0, debug@^2.1.1:
   version "2.6.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.0.tgz#bc596bcabe7617f11d9fa15361eded5608b8499b"
   dependencies:

@@ -1,5 +1,4 @@
-import { view, Component, Events, Store } from '@storefront/core';
-import { Selectors } from '@storefront/flux-capacitor';
+import { view, Component, Events, Selectors, Store } from '@storefront/core';
 
 @view('gb-refinement-crumbs', require('./index.html'))
 class RefinementCrumbs extends Component {
