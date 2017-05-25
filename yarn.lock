@@ -58,8 +58,8 @@
     urijs "^1.18.10"
 
 "@storefront/flux-capacitor@dev":
-  version "0.0.13-development"
-  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-0.0.13-development.tgz#89cd6b1ca3a0626efe0b361dc48e5261c8a6b62c"
+  version "0.0.14-development"
+  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-0.0.14-development.tgz#e5f9219004a7486550ad413210795e3929c66e88"
   dependencies:
     "@types/redux-logger" "^3.0.0"
     "@types/uuid" "^2.0.29"
@@ -1322,13 +1322,13 @@ dateformat@^1.0.11:
     get-stdin "^4.0.1"
     meow "^3.3.0"
 
-debug@2, debug@^2.1.3, debug@^2.6.3:
+debug@2, debug@^2.1.1, debug@^2.1.3, debug@^2.6.3:
   version "2.6.8"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.6.8.tgz#e731531ca2ede27d188222427da17821d68ff4fc"
   dependencies:
     ms "2.0.0"
 
-debug@2.2.0, debug@^2.1.1, debug@^2.2.0:
+debug@2.2.0, debug@^2.2.0:
   version "2.2.0"
   resolved "https://registry.yarnpkg.com/debug/-/debug-2.2.0.tgz#f87057e995b1a1f6ae6a4960664137bc56f039da"
   dependencies:
@@ -1948,8 +1948,8 @@ gauge@~2.7.3:
     wide-align "^1.1.0"
 
 gb-tracker-client@^3.4.3:
-  version "3.4.3"
-  resolved "https://registry.yarnpkg.com/gb-tracker-client/-/gb-tracker-client-3.4.3.tgz#22a48fa47d7d6e321bb8e79989c873fca64bf427"
+  version "3.4.4"
+  resolved "https://registry.yarnpkg.com/gb-tracker-client/-/gb-tracker-client-3.4.4.tgz#d43a186eded4e1c77cdb7d8a23a4dbd7d3550877"
   dependencies:
     cookies-js "^1.2.3"
     deep-diff "^0.3.4"
