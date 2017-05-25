@@ -40,7 +40,10 @@
       "testFiles": [
         "test/bootstrap.ts",
         "test/**/*.ts"
-      ]
+      ],
+      "releaseOpts": {
+        "public": true
+      }
     }
   },
   "devDependencies": {
