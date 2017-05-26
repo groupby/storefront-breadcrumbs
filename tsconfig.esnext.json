@@ -1,23 +1,14 @@
 {
-  "compileOnSave": false,
   "compilerOptions": {
     "lib": [
       "ES2015",
       "ES2016.Array.Include",
       "DOM"
     ],
-    "module": "commonjs",
+    "module": "es2015",
     "moduleResolution": "node",
-    "target": "ES5",
+    "target": "es2015",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true
-  },
-  "exclude": [
-    "node_modules",
-    "dist"
-  ],
-  "formatCodeOptions": {
-    "indentSize": 2,
-    "tabSize": 2
   }
 }
