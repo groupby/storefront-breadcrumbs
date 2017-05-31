@@ -1,6 +1,6 @@
-import { view, Component, Events, Selectors } from '@storefront/core';
+import { tag, Events, Selectors, Tag } from '@storefront/core';
 
-@view('gb-breadcrumbs', require('./index.html'), require('./index.css'), [
+@tag('gb-breadcrumbs', require('./index.html'), [
   { name: 'showLabels', default: true },
   {
     name: 'labels',
@@ -11,14 +11,13 @@ import { view, Component, Events, Selectors } from '@storefront/core';
     }
   }
 ])
-class Breadcrumbs extends Component {
-  props: Breadcrumbs.Props;
+class Breadcrumbs {
+
   state: Breadcrumbs.State = {
     fields: []
   };
 
-  constructor() {
-    super();
+  init() {
     this.flux.on(Events.ORIGINAL_QUERY_UPDATED, this.updateOriginalQuery);
     this.flux.on(Events.CORRECTED_QUERY_UPDATED, this.updateCorrectedQuery);
     this.flux.on(Events.NAVIGATIONS_UPDATED, this.updateFields);
@@ -49,6 +48,7 @@ class Breadcrumbs extends Component {
   }
 }
 
+interface Breadcrumbs extends Tag<Breadcrumbs.Props, Breadcrumbs.State> { }
 namespace Breadcrumbs {
   export interface Props {
     showLabels?: boolean;
@@ -58,6 +58,7 @@ namespace Breadcrumbs {
       corrected?: string;
     };
   }
+
   export interface State extends Props {
     originalQuery?: string;
     correctedQuery?: string;

@@ -1,8 +1,8 @@
-import { view, Component, Events, Selectors, Store } from '@storefront/core';
+import { tag, Selectors, Store, Tag } from '@storefront/core';
 
-@view('gb-refinement-crumbs', require('./index.html'))
-class RefinementCrumbs extends Component {
-  props: RefinementCrumbs.Props;
+@tag('gb-refinement-crumbs', require('./index.html'))
+class RefinementCrumbs {
+
   state: RefinementCrumbs.State = {
     refinements: []
   };
@@ -26,10 +26,12 @@ class RefinementCrumbs extends Component {
   }
 }
 
+interface RefinementCrumbs extends Tag<RefinementCrumbs.Props, RefinementCrumbs.State> { }
 namespace RefinementCrumbs {
   export interface Props {
     field: string;
   }
+
   export interface State {
     field?: string;
     label?: string;

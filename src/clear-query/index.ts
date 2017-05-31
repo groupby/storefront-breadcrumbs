@@ -1,18 +1,18 @@
-import { view, Component } from '@storefront/core';
+import { tag, Tag } from '@storefront/core';
 
-@view('gb-clear-query', require('./index.html'))
-class ClearQuery extends Component {
+@tag('gb-clear-query', require('./index.html'))
+class ClearQuery {
 
   state: ClearQuery.State = {
     onClick: () => this.flux.resetQuery()
   };
 
-  constructor() {
-    super();
+  init() {
     this.expose('clearQuery');
   }
 }
 
+interface ClearQuery extends Tag<any, ClearQuery.State> { }
 namespace ClearQuery {
   export interface State {
     onClick(): void;
