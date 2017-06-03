@@ -1,5 +1,6 @@
-import { tag, Selectors, Store, Tag } from '@storefront/core';
+import { alias, tag, Selectors, Store, Tag } from '@storefront/core';
 
+@alias('refinementCrumbs')
 @tag('gb-refinement-crumbs', require('./index.html'))
 class RefinementCrumbs {
 
@@ -7,22 +8,22 @@ class RefinementCrumbs {
     refinements: []
   };
 
-  onBeforeMount() {
-    const navigation = Selectors.navigation(this.flux.store.getState(), this.props.field);
+  init() {
+    const field = this.props.field;
+    const navigation = Selectors.navigation(this.flux.store.getState(), field);
     this.state = {
-      field: this.props.field,
+      field,
       label: navigation.label,
       refinements: navigation.refinements
         .map((refinement, index) => ({
           ...refinement,
           index,
-          field: this.props.field,
+          field,
           selected: navigation.selected.includes(index),
           range: navigation.range
         }))
         .filter((refinement) => refinement.selected)
     };
-    this.expose('refinementCrumbs');
   }
 }
 

@@ -1,18 +1,12 @@
-import { tag, Tag } from '@storefront/core';
+import { alias, tag, Tag } from '@storefront/core';
 
+@alias('clearRefinement')
 @tag('gb-clear-refinement', require('./index.html'))
 class ClearRefinement {
 
   state: ClearRefinement.State = {
-    onClick: () => {
-      this.log.warn('hello dolly', this.props.field, this.props.index);
-      this.flux.unrefine(this.props.field, this.props.index);
-    }
+    onClick: () => this.flux.unrefine(this.props.field, this.props.index)
   };
-
-  init() {
-    this.expose('clearRefinement');
-  }
 }
 
 interface ClearRefinement extends Tag<ClearRefinement.Props, ClearRefinement.State> { }

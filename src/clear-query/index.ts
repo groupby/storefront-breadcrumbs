@@ -1,15 +1,12 @@
-import { tag, Tag } from '@storefront/core';
+import { alias, tag, Tag } from '@storefront/core';
 
+@alias('clearQuery')
 @tag('gb-clear-query', require('./index.html'))
 class ClearQuery {
 
   state: ClearQuery.State = {
     onClick: () => this.flux.resetQuery()
   };
-
-  init() {
-    this.expose('clearQuery');
-  }
 }
 
 interface ClearQuery extends Tag<any, ClearQuery.State> { }

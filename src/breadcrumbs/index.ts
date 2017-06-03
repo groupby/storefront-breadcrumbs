@@ -1,36 +1,31 @@
-import { tag, Events, Selectors, Tag } from '@storefront/core';
+import { alias, tag, Events, Selectors, Tag } from '@storefront/core';
 
-@tag('gb-breadcrumbs', require('./index.html'), [
-  { name: 'showLabels', default: true },
-  {
-    name: 'labels',
-    default: {
+@alias('breadcrumbs')
+@tag('gb-breadcrumbs', require('./index.html'))
+class Breadcrumbs {
+
+  props: Breadcrumbs.Props = {
+    showLabels: true,
+    labels: {
       results: 'Results:',
       noResults: 'No Results:',
       corrected: 'Corrected:'
     }
-  }
-])
-class Breadcrumbs {
-
+  };
   state: Breadcrumbs.State = {
     fields: []
   };
 
   init() {
-    this.flux.on(Events.ORIGINAL_QUERY_UPDATED, this.updateOriginalQuery);
-    this.flux.on(Events.CORRECTED_QUERY_UPDATED, this.updateCorrectedQuery);
-    this.flux.on(Events.NAVIGATIONS_UPDATED, this.updateFields);
-    this.flux.on(Events.SELECTED_REFINEMENTS_UPDATED, this.updateFields);
-  }
-
-  onBeforeMount() {
     this.state = {
       ...this.state,
       labels: this.props.labels,
       showLabels: this.props.showLabels
     };
-    this.expose('breadcrumbs');
+    this.flux.on(Events.ORIGINAL_QUERY_UPDATED, this.updateOriginalQuery);
+    this.flux.on(Events.CORRECTED_QUERY_UPDATED, this.updateCorrectedQuery);
+    this.flux.on(Events.NAVIGATIONS_UPDATED, this.updateFields);
+    this.flux.on(Events.SELECTED_REFINEMENTS_UPDATED, this.updateFields);
   }
 
   updateOriginalQuery = (originalQuery: string) =>
