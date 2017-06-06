@@ -10,17 +10,17 @@ class RefinementCrumbs {
 
   init() {
     const field = this.props.field;
-    const navigation = Selectors.navigation(this.flux.store.getState(), field);
+    const { label, range, refinements, selected } = Selectors.navigation(this.flux.store.getState(), field);
     this.state = {
       field,
-      label: navigation.label,
-      refinements: navigation.refinements
+      label,
+      refinements: refinements
         .map((refinement, index) => ({
           ...refinement,
           index,
           field,
-          selected: navigation.selected.includes(index),
-          range: navigation.range
+          range,
+          selected: selected.includes(index),
         }))
         .filter((refinement) => refinement.selected)
     };
