@@ -25,7 +25,6 @@ class Breadcrumbs {
     this.flux.on(Events.ORIGINAL_QUERY_UPDATED, this.updateOriginalQuery);
     this.flux.on(Events.CORRECTED_QUERY_UPDATED, this.updateCorrectedQuery);
     this.flux.on(Events.NAVIGATIONS_UPDATED, this.updateFields);
-    this.flux.on(Events.SELECTED_REFINEMENTS_UPDATED, this.updateFields);
   }
 
   updateOriginalQuery = (originalQuery: string) =>
