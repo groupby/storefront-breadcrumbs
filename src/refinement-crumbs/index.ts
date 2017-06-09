@@ -15,11 +15,9 @@ class RefinementCrumbs {
   }
 
   onUpdate() {
-    if (this.props.field !== this.field) {
-      this.updateField(this.props.field);
-      this.state = this.selectRefinements();
-      this.updateAlias('refinementCrumbs', this.state);
-    }
+    this.updateField(this.props.field);
+    this.state = this.selectRefinements();
+    this.updateAlias('refinementCrumbs', this.state);
   }
 
   updateField(field: string) {
