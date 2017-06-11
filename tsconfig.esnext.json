@@ -5,6 +5,9 @@
       "ES2016.Array.Include",
       "DOM"
     ],
+    "types": [
+      "node"
+    ],
     "module": "es2015",
     "moduleResolution": "node",
     "target": "es2015",
