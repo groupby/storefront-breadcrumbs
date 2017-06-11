@@ -1,6 +1,6 @@
 {
   "name": "@storefront/breadcrumbs",
-  "version": "0.0.0-development",
+  "version": "0.0.10-development",
   "description": "StoreFront breadcrumbs component",
   "keywords": [
     "storefront",
@@ -29,8 +29,7 @@
     "test": "npm start test",
     "tdd": "npm start tdd",
     "prepush": "npm start prepush",
-    "prepublish": "npm start build && npm run esnext",
-    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+    "prepublish": "npm start build && npm run esnext"
   },
   "release": {
     "verifyConditions": "condition-circle"
@@ -63,7 +62,6 @@
     "mocha-suite": "^1.0.9",
     "mock-require": "^2.0.2",
     "re-start": "^1.14.8",
-    "semantic-release": "^6.3.6",
     "sinon": "^2.3.4",
     "sinon-chai": "^2.10.0",
     "start-simple-cli": "^4.1.1",
