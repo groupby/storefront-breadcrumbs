@@ -12,9 +12,11 @@ class Breadcrumbs {
       corrected: 'Corrected:'
     }
   };
-  state: Breadcrumbs.State = {
-    fields: []
-  };
+
+  constructor() {
+    const state = this.flux.store.getState();
+    this.state = { fields: [], originalQuery: Selectors.query(state) };
+  }
 
   init() {
     this.state = {
@@ -54,9 +56,9 @@ namespace Breadcrumbs {
   }
 
   export interface State extends Props {
-    originalQuery?: string;
-    correctedQuery?: string;
     fields: string[];
+    originalQuery: string;
+    correctedQuery?: string;
   }
 }
 
