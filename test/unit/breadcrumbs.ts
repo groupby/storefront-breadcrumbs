@@ -1,11 +1,21 @@
 import { Events, Selectors } from '@storefront/core';
+import * as sinon from 'sinon';
 import Breadcrumbs from '../../src/breadcrumbs';
 import suite from './_suite';
 
+const QUERY = 'ballroom shoes';
+const STATE = { a: 'b' };
+
 suite('Breadcrumbs', ({ expect, spy, stub }) => {
+  let querySelector: sinon.SinonStub;
   let breadcrumbs: Breadcrumbs;
 
-  beforeEach(() => breadcrumbs = new Breadcrumbs());
+  beforeEach(() => {
+    querySelector = stub(Selectors, 'query').returns(QUERY);
+    Breadcrumbs.prototype.flux = <any>{ store: { getState: () => STATE } };
+    breadcrumbs = new Breadcrumbs();
+  });
+  afterEach(() => delete Breadcrumbs.prototype.flux);
 
   describe('constructor()', () => {
     describe('props', () => {
@@ -23,7 +33,11 @@ suite('Breadcrumbs', ({ expect, spy, stub }) => {
 
     describe('state', () => {
       it('should set initial value', () => {
-        expect(breadcrumbs.state).to.eql({ fields: [] });
+        expect(querySelector).to.be.calledWith(STATE);
+        expect(breadcrumbs.state).to.eql({
+          fields: [],
+          originalQuery: QUERY
+        });
       });
     });
   });
