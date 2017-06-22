@@ -5,7 +5,7 @@ import { alias, tag, Tag } from '@storefront/core';
 class ClearRefinement {
 
   state: ClearRefinement.State = {
-    onClick: () => this.flux.unrefine(this.props.field, this.props.index)
+    onClick: () => this.actions.deselectRefinement(this.props.field, this.props.index)
   };
 }
 
