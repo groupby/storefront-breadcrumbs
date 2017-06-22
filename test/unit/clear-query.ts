@@ -9,9 +9,9 @@ suite('ClearQuery', ({ expect, spy }) => {
   describe('constructor()', () => {
     describe('state', () => {
       describe('onClick()', () => {
-        it('should call flux.resetQuery()', () => {
+        it('should call actions.resetQuery()', () => {
           const resetQuery = spy();
-          clearQuery.flux = <any>{ resetQuery };
+          clearQuery.actions = <any>{ resetQuery };
 
           clearQuery.state.onClick();
 
