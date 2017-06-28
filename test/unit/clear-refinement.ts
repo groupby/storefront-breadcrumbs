@@ -9,16 +9,16 @@ suite('ClearRefinement', ({ expect, spy }) => {
   describe('constructor()', () => {
     describe('state', () => {
       describe('onClick()', () => {
-        it('should call flux.resetRefinement()', () => {
+        it('should call actions.deselectRefinement()', () => {
           const field = 'brand';
           const index = 13;
-          const unrefine = spy();
+          const deselectRefinement = spy();
           clearRefinement.props = { field, index };
-          clearRefinement.flux = <any>{ unrefine };
+          clearRefinement.actions = <any>{ deselectRefinement };
 
           clearRefinement.state.onClick();
 
-          expect(unrefine).to.be.calledWith(field, index);
+          expect(deselectRefinement).to.be.calledWith(field, index);
         });
       });
     });

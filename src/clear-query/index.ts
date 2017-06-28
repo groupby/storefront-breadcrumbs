@@ -5,7 +5,7 @@ import { alias, tag, Tag } from '@storefront/core';
 class ClearQuery {
 
   state: ClearQuery.State = {
-    onClick: () => this.flux.resetQuery()
+    onClick: () => this.actions.resetQuery()
   };
 }
 
