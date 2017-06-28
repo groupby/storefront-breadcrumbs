@@ -5,7 +5,6 @@ import * as sinonChai from 'sinon-chai';
 chai.use(sinonChai);
 
 mock('../src/breadcrumbs/index.html', {});
-mock('../src/breadcrumbs/index.css', {});
 mock('../src/clear-query/index.html', {});
 mock('../src/clear-refinement/index.html', {});
 mock('../src/corrected-query/index.html', {});
