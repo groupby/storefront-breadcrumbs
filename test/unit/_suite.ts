@@ -6,8 +6,8 @@ export interface Utils {
   expect: Chai.ExpectStatic;
   spy: sinon.SinonSpyStatic;
   stub: sinon.SinonStubStatic;
-  configurable: any;
-  aliased: any;
+  itShouldBeConfigurable: any;
+  itShouldHaveAlias: any;
 }
 
 export default suite<Utils, any>((tests) => {
@@ -20,14 +20,14 @@ export default suite<Utils, any>((tests) => {
     expect,
     spy: (...args) => (<any>sandbox.spy)(...args),
     stub: (...args) => (<any>sandbox.stub)(...args),
-    configurable: (clazz) => {
+    itShouldBeConfigurable: (clazz) => {
       describe('configurable', () => {
         it('should set configurable to be true', () => {
           expect(clazz[Symbol.for('tag_description')].metadata.configurable).to.be.true;
         });
       });
     },
-    aliased: (clazz) => {
+    itShouldHaveAlias: (clazz) => {
       describe('alias', () => {
         it('should set alias', () => {
           // tslint:disable-next-line max-line-length
