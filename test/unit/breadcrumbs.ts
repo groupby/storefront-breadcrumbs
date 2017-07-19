@@ -6,7 +6,7 @@ import suite from './_suite';
 const QUERY = 'ballroom shoes';
 const STATE = { a: 'b' };
 
-suite('Breadcrumbs', ({ expect, spy, stub }) => {
+suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlias }) => {
   let querySelector: sinon.SinonStub;
   let breadcrumbs: Breadcrumbs;
 
@@ -16,6 +16,9 @@ suite('Breadcrumbs', ({ expect, spy, stub }) => {
     breadcrumbs = new Breadcrumbs();
   });
   afterEach(() => delete Breadcrumbs.prototype.flux);
+
+  itShouldBeConfigurable(Breadcrumbs);
+  itShouldHaveAlias(Breadcrumbs, 'breadcrumbs');
 
   describe('constructor()', () => {
     describe('props', () => {

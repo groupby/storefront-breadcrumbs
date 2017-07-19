@@ -1,5 +1,6 @@
-import { alias, tag, Events, Selectors, Tag } from '@storefront/core';
+import { alias, configurable, tag, Events, Selectors, Tag } from '@storefront/core';
 
+@configurable
 @alias('breadcrumbs')
 @tag('gb-breadcrumbs', require('./index.html'))
 class Breadcrumbs {
