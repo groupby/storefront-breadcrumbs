@@ -18,7 +18,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
   afterEach(() => delete Breadcrumbs.prototype.flux);
 
   itShouldBeConfigurable(Breadcrumbs);
-  itShouldHaveAlias(Breadcrumbs);
+  itShouldHaveAlias(Breadcrumbs, 'breadcrumbs');
 
   describe('constructor()', () => {
     describe('props', () => {
