@@ -39,13 +39,9 @@ This module provides the `<gb-breadcrumbs>` component for use with StoreFront.
 ### Mount tag
 
 ```html
-/* index.html */
+<!-- index.html -->
 <body>
-  /* ... */
-
   <gb-breadcrumbs></gb-breadcrumbs>
-
-  /* ... */
 </body>
 ```
 
