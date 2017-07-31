@@ -47,7 +47,7 @@ class Breadcrumbs {
 
 interface Breadcrumbs extends Tag<Breadcrumbs.Props, Breadcrumbs.State> { }
 namespace Breadcrumbs {
-  export interface Props {
+  export interface Props extends Tag.Props {
     showLabels?: boolean;
     labels?: {
       results?: string;

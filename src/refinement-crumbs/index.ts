@@ -53,7 +53,7 @@ class RefinementCrumbs {
 
 interface RefinementCrumbs extends Tag<RefinementCrumbs.Props, RefinementCrumbs.State> { }
 namespace RefinementCrumbs {
-  export interface Props {
+  export interface Props extends Tag.Props {
     field: string;
   }
 

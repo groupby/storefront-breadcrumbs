@@ -11,7 +11,7 @@ class ClearRefinement {
 
 interface ClearRefinement extends Tag<ClearRefinement.Props, ClearRefinement.State> { }
 namespace ClearRefinement {
-  export interface Props {
+  export interface Props extends Tag.Props {
     field: string;
     index: number;
   }

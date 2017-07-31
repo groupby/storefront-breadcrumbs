@@ -50,7 +50,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
       const labels = { a: 'b' };
       const showLabels = false;
       breadcrumbs.flux = <any>{ on: () => null };
-      breadcrumbs.props = { labels, showLabels };
+      breadcrumbs.props = <any>{ labels, showLabels };
 
       breadcrumbs.init();
 
