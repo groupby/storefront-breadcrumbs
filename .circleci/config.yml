@@ -49,7 +49,7 @@ jobs:
           <<: *cache
       - run:
           name: Release
-          command: 'yarn release || true'
+          command: 'yarn start release || true'
   documentation:
     docker:
       - image: kkarczmarczyk/node-yarn
