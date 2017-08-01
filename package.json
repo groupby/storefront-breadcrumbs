@@ -29,7 +29,7 @@
     "test": "npm start test",
     "tdd": "npm start tdd",
     "prepush": "npm start prepush",
-    "prepare": "npm start build && npm run esnext",
+    "prepublish": "npm start build && npm run esnext",
     "docs": "typedoc src/**/*.ts",
     "docs:json": "npm run docs -- --json component.docs.json"
   },
