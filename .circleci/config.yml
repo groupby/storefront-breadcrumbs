@@ -34,10 +34,10 @@ jobs:
           name: Upload Lockfile
           command: greenkeeper-lockfile-upload
       - save_cache:
-        <<: *build_cache
-        paths:
-          - ~/project/dist
-          - ~/project/esnext
+          <<: *build_cache
+          paths:
+            - ~/project/dist
+            - ~/project/esnext
   unit_test:
     docker:
       - image: kkarczmarczyk/node-yarn
