@@ -1,4 +1,5 @@
 import Breadcrumbs from './breadcrumbs';
+import ClearAllRefinements from './clear-all-refinements';
 import ClearQuery from './clear-query';
 import ClearRefinement from './clear-refinement';
 import './corrected-query';
@@ -9,6 +10,7 @@ import RefinementCrumbs from './refinement-crumbs';
 
 export {
   Breadcrumbs,
+  ClearAllRefinements,
   ClearQuery,
   ClearRefinement,
   RefinementCrumbs
