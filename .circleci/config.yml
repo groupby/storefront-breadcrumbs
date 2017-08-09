@@ -19,7 +19,7 @@ jobs:
           command: yarn global add greenkeeper-lockfile@1
       - run:
           name: Install
-          command: yarn
+          command: yarn install
       - save_cache:
           <<: *node_cache
           paths:
