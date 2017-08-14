@@ -3,4 +3,5 @@
   <gb-list items="{ $breadcrumbs.fields }">
     <gb-refinement-crumbs field="{ $item }"></gb-refinement-crumbs>
   </gb-list>
+  <gb-clear-all-refinements if="{ $breadcrumbs.fields.length > 0 }"></gb-clear-all-refinements>
 </yield>
