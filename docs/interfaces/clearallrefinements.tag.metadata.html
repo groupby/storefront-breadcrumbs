@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Event | @storefront/breadcrumbs</title>
+	<title>Metadata | @storefront/breadcrumbs</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<link rel="stylesheet" href="../assets/css/main.css">
@@ -56,16 +56,16 @@
 					<a href="../globals.html">Globals</a>
 				</li>
 				<li>
-					<a href="../classes/clearquery.html">ClearQuery</a>
+					<a href="../classes/clearallrefinements.html">ClearAllRefinements</a>
 				</li>
 				<li>
-					<a href="../modules/clearquery.tag.html">Tag</a>
+					<a href="../modules/clearallrefinements.tag.html">Tag</a>
 				</li>
 				<li>
-					<a href="clearquery.tag.event.html">Event</a>
+					<a href="clearallrefinements.tag.metadata.html">Metadata</a>
 				</li>
 			</ul>
-			<h1>Interface Event</h1>
+			<h1>Interface Metadata</h1>
 		</div>
 	</div>
 </header>
@@ -76,7 +76,7 @@
 				<h3>Hierarchy</h3>
 				<ul class="tsd-hierarchy">
 					<li>
-						<span class="target">Event</span>
+						<span class="target">Metadata</span>
 					</li>
 				</ul>
 			</section>
@@ -87,7 +87,12 @@
 						<section class="tsd-index-section ">
 							<h3>Properties</h3>
 							<ul class="tsd-index-list">
-								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clearquery.tag.event.html#preventupdate" class="tsd-kind-icon">prevent<wbr>Update</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clearallrefinements.tag.metadata.html#alias" class="tsd-kind-icon">alias</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clearallrefinements.tag.metadata.html#attributes" class="tsd-kind-icon">attributes</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clearallrefinements.tag.metadata.html#configurable" class="tsd-kind-icon">configurable</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clearallrefinements.tag.metadata.html#defaults" class="tsd-kind-icon">defaults</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clearallrefinements.tag.metadata.html#name" class="tsd-kind-icon">name</a></li>
+								<li class="tsd-kind-property tsd-parent-kind-interface"><a href="clearallrefinements.tag.metadata.html#origin" class="tsd-kind-icon">origin</a></li>
 							</ul>
 						</section>
 					</div>
@@ -96,12 +101,62 @@
 			<section class="tsd-panel-group tsd-member-group ">
 				<h2>Properties</h2>
 				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
-					<a name="preventupdate" class="tsd-anchor"></a>
-					<h3>prevent<wbr>Update</h3>
-					<div class="tsd-signature tsd-kind-icon">prevent<wbr>Update<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<a name="alias" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> alias</h3>
+					<div class="tsd-signature tsd-kind-icon">alias<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 					<aside class="tsd-sources">
 						<ul>
-							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:62</li>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:52</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="attributes" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> attributes</h3>
+					<div class="tsd-signature tsd-kind-icon">attributes<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Attribute</span><span class="tsd-signature-symbol">[]</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:55</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="configurable" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> configurable</h3>
+					<div class="tsd-signature tsd-kind-icon">configurable<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:54</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="defaults" class="tsd-anchor"></a>
+					<h3>defaults</h3>
+					<div class="tsd-signature tsd-kind-icon">defaults<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">object</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:51</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="name" class="tsd-anchor"></a>
+					<h3>name</h3>
+					<div class="tsd-signature tsd-kind-icon">name<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:50</li>
+						</ul>
+					</aside>
+				</section>
+				<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-interface">
+					<a name="origin" class="tsd-anchor"></a>
+					<h3><span class="tsd-flag ts-flagOptional">Optional</span> origin</h3>
+					<div class="tsd-signature tsd-kind-icon">origin<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
+					<aside class="tsd-sources">
+						<ul>
+							<li>Defined in node_modules/@storefront/core/dist/core/tag/index.d.ts:53</li>
 						</ul>
 					</aside>
 				</section>
@@ -116,10 +171,10 @@
 					<li class=" tsd-kind-module tsd-parent-kind-class">
 						<a href="../modules/breadcrumbs.tag.html">Breadcrumbs.<wbr>Tag</a>
 					</li>
-					<li class=" tsd-kind-module tsd-parent-kind-class">
+					<li class="current tsd-kind-module tsd-parent-kind-class">
 						<a href="../modules/clearallrefinements.tag.html">Clear<wbr>All<wbr>Refinements.<wbr>Tag</a>
 					</li>
-					<li class="current tsd-kind-module tsd-parent-kind-class">
+					<li class=" tsd-kind-module tsd-parent-kind-class">
 						<a href="../modules/clearquery.tag.html">Clear<wbr>Query.<wbr>Tag</a>
 					</li>
 					<li class=" tsd-kind-module tsd-parent-kind-class">
@@ -133,46 +188,61 @@
 			<nav class="tsd-navigation secondary menu-sticky">
 				<ul class="before-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="clearquery.tag.description.html" class="tsd-kind-icon">Description</a>
+						<a href="clearallrefinements.tag.description.html" class="tsd-kind-icon">Description</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="clearallrefinements.tag.event.html" class="tsd-kind-icon">Event</a>
+					</li>
+					<li class=" tsd-kind-interface tsd-parent-kind-module">
+						<a href="clearallrefinements.tag.lifecycle.html" class="tsd-kind-icon">Lifecycle</a>
 					</li>
 				</ul>
 				<ul class="current">
 					<li class="current tsd-kind-interface tsd-parent-kind-module">
-						<a href="clearquery.tag.event.html" class="tsd-kind-icon">Event</a>
+						<a href="clearallrefinements.tag.metadata.html" class="tsd-kind-icon">Metadata</a>
 						<ul>
 							<li class=" tsd-kind-property tsd-parent-kind-interface">
-								<a href="clearquery.tag.event.html#preventupdate" class="tsd-kind-icon">prevent<wbr>Update</a>
+								<a href="clearallrefinements.tag.metadata.html#alias" class="tsd-kind-icon">alias</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="clearallrefinements.tag.metadata.html#attributes" class="tsd-kind-icon">attributes</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="clearallrefinements.tag.metadata.html#configurable" class="tsd-kind-icon">configurable</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="clearallrefinements.tag.metadata.html#defaults" class="tsd-kind-icon">defaults</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="clearallrefinements.tag.metadata.html#name" class="tsd-kind-icon">name</a>
+							</li>
+							<li class=" tsd-kind-property tsd-parent-kind-interface">
+								<a href="clearallrefinements.tag.metadata.html#origin" class="tsd-kind-icon">origin</a>
 							</li>
 						</ul>
 					</li>
 				</ul>
 				<ul class="after-current">
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="clearquery.tag.lifecycle.html" class="tsd-kind-icon">Lifecycle</a>
+						<a href="clearallrefinements.tag.mixin.html" class="tsd-kind-icon">Mixin</a>
 					</li>
 					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="clearquery.tag.metadata.html" class="tsd-kind-icon">Metadata</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="clearquery.tag.mixin.html" class="tsd-kind-icon">Mixin</a>
-					</li>
-					<li class=" tsd-kind-interface tsd-parent-kind-module">
-						<a href="clearquery.tag.props.html" class="tsd-kind-icon">Props</a>
+						<a href="clearallrefinements.tag.props.html" class="tsd-kind-icon">Props</a>
 					</li>
 					<li class=" tsd-kind-type-alias tsd-parent-kind-module">
-						<a href="../modules/clearquery.tag.html#primedactions" class="tsd-kind-icon">Primed<wbr>Actions</a>
+						<a href="../modules/clearallrefinements.tag.html#primedactions" class="tsd-kind-icon">Primed<wbr>Actions</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/clearquery.tag.html#create" class="tsd-kind-icon">create</a>
+						<a href="../modules/clearallrefinements.tag.html#create" class="tsd-kind-icon">create</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/clearquery.tag.html#getdescription" class="tsd-kind-icon">get<wbr>Description</a>
+						<a href="../modules/clearallrefinements.tag.html#getdescription" class="tsd-kind-icon">get<wbr>Description</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/clearquery.tag.html#getmeta" class="tsd-kind-icon">get<wbr>Meta</a>
+						<a href="../modules/clearallrefinements.tag.html#getmeta" class="tsd-kind-icon">get<wbr>Meta</a>
 					</li>
 					<li class=" tsd-kind-function tsd-parent-kind-module">
-						<a href="../modules/clearquery.tag.html#mixin-1" class="tsd-kind-icon">mixin</a>
+						<a href="../modules/clearallrefinements.tag.html#mixin-1" class="tsd-kind-icon">mixin</a>
 					</li>
 				</ul>
 			</nav>
