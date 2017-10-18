@@ -39,11 +39,11 @@
     conventional-changelog "0.0.17"
     github-url-from-git "^1.4.0"
 
-"@storefront/core@~1.26.0":
-  version "1.26.3"
-  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.26.3.tgz#4b84bcdded04ba28253b3737048fa4d97f902855"
+"@storefront/core@~1.27.0":
+  version "1.27.0"
+  resolved "https://registry.yarnpkg.com/@storefront/core/-/core-1.27.0.tgz#37c435119f0c328c3dcddd96c803a02f4de376ca"
   dependencies:
-    "@storefront/flux-capacitor" "1.24.2"
+    "@storefront/flux-capacitor" "1.26.1"
     "@types/clone" "^0.1.30"
     "@types/deep-assign" "^0.1.0"
     "@types/js-cookie" "^2.0.28"
@@ -59,9 +59,9 @@
     riot "^3.4.4"
     url-parse "^1.1.9"
 
-"@storefront/flux-capacitor@1.24.2":
-  version "1.24.2"
-  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.24.2.tgz#57ba94df1626ff3c3a59623bd505b170122801a7"
+"@storefront/flux-capacitor@1.26.1":
+  version "1.26.1"
+  resolved "https://registry.yarnpkg.com/@storefront/flux-capacitor/-/flux-capacitor-1.26.1.tgz#ea255b582714859c54da5a99c5e5e6b00007db83"
   dependencies:
     "@manaflair/redux-batch" "^0.1.0"
     "@types/redux-logger" "^3.0.0"
@@ -5380,7 +5380,7 @@ typedoc-default-themes@^0.5.0:
   version "0.5.0"
   resolved "https://registry.yarnpkg.com/typedoc-default-themes/-/typedoc-default-themes-0.5.0.tgz#6dc2433e78ed8bea8e887a3acde2f31785bd6227"
 
-typedoc@0.9.0:
+typedoc@^0.9.0:
   version "0.9.0"
   resolved "https://registry.yarnpkg.com/typedoc/-/typedoc-0.9.0.tgz#159bff7c7784ce5b91d86f3e4cc8928e62040957"
   dependencies:
