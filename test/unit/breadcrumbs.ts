@@ -14,7 +14,10 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     Breadcrumbs.prototype.flux = <any>{};
     breadcrumbs = new Breadcrumbs();
   });
-  afterEach(() => delete Breadcrumbs.prototype.flux);
+  afterEach(() => {
+    delete Breadcrumbs.prototype.flux;
+    delete Breadcrumbs.prototype.select;
+  });
 
   itShouldBeConfigurable(Breadcrumbs);
   itShouldHaveAlias(Breadcrumbs, 'breadcrumbs');
@@ -111,14 +114,14 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     it('should set fields', () => {
       const state = { a: 'b' };
       const navigations = [{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
-      const localSelect = breadcrumbs.select = <any>spy(() => navigations);
+      select = breadcrumbs.select = <any>spy(() => navigations);
       const set = breadcrumbs.set = spy();
       breadcrumbs.flux = <any>{ store: { getState: () => state } };
 
       breadcrumbs.updateFields();
 
       expect(set).to.be.calledWith({ fields: ['c', 'd'] });
-      expect(localSelect).to.be.calledWith(Selectors.navigations);
+      expect(select).to.be.calledWith(Selectors.navigations);
     });
   });
 });
