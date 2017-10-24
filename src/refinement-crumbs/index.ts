@@ -30,7 +30,7 @@ class RefinementCrumbs {
 
   selectRefinements() {
     const field = this.field;
-    const navigation = Selectors.navigation(this.flux.store.getState(), field);
+    const navigation = this.select(Selectors.navigation, field);
     if (navigation) {
       const { range, refinements, selected } = navigation;
 

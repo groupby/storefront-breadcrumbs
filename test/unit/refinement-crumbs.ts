@@ -136,7 +136,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub }) => {
         refinements: [{ a: 'b' }, { c: 'd' }, { e: 'f' }],
       };
       const field = refinementCrumbs.field = 'colour';
-      const selectNavigation = stub(Selectors, 'navigation').returns(navigation);
+      const select = refinementCrumbs.select = spy(() => navigation);
       refinementCrumbs.flux = <any>{ store: { getState: () => state } };
 
       const refinements = refinementCrumbs.selectRefinements();
@@ -151,7 +151,19 @@ suite('RefinementCrumbs', ({ expect, spy, stub }) => {
           { field, range, index: 2, selected: true, e: 'f' },
         ]
       });
-      expect(selectNavigation).to.be.calledWith(state, field);
+      expect(select).to.be.calledWith(Selectors.navigation, field);
+    });
+
+    it('should return undefined if navigation is undefined', () => {
+      const field = refinementCrumbs.field = 'hat';
+      const select = refinementCrumbs.select = spy();
+      const state = { a: 'b' };
+      refinementCrumbs.flux = <any>{ store: { getState: () => state } };
+
+      const refinements = refinementCrumbs.selectRefinements();
+
+      expect(refinements).to.be.undefined;
+      expect(select).to.be.calledWith(Selectors.navigation, field);
     });
   });
 });

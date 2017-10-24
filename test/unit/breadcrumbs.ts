@@ -4,18 +4,20 @@ import Breadcrumbs from '../../src/breadcrumbs';
 import suite from './_suite';
 
 const QUERY = 'ballroom shoes';
-const STATE = { a: 'b' };
 
 suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlias }) => {
-  let querySelector: sinon.SinonStub;
   let breadcrumbs: Breadcrumbs;
+  let select: sinon.SinonStub;
 
   beforeEach(() => {
-    querySelector = stub(Selectors, 'query').returns(QUERY);
-    Breadcrumbs.prototype.flux = <any>{ store: { getState: () => STATE } };
+    select = Breadcrumbs.prototype.select = stub().returns(QUERY);
+    Breadcrumbs.prototype.flux = <any>{};
     breadcrumbs = new Breadcrumbs();
   });
-  afterEach(() => delete Breadcrumbs.prototype.flux);
+  afterEach(() => {
+    delete Breadcrumbs.prototype.flux;
+    delete Breadcrumbs.prototype.select;
+  });
 
   itShouldBeConfigurable(Breadcrumbs);
   itShouldHaveAlias(Breadcrumbs, 'breadcrumbs');
@@ -36,7 +38,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
 
     describe('state', () => {
       it('should set initial value', () => {
-        expect(querySelector).to.be.calledWith(STATE);
+        expect(select).to.be.calledWith(Selectors.query);
         expect(breadcrumbs.state).to.eql({
           fields: [],
           originalQuery: QUERY
@@ -112,14 +114,14 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     it('should set fields', () => {
       const state = { a: 'b' };
       const navigations = [{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
-      const selectNavigations = stub(Selectors, 'navigations').returns(navigations);
+      select.returns(navigations);
       const set = breadcrumbs.set = spy();
       breadcrumbs.flux = <any>{ store: { getState: () => state } };
 
       breadcrumbs.updateFields();
 
       expect(set).to.be.calledWith({ fields: ['c', 'd'] });
-      expect(selectNavigations).to.be.calledWith(state);
+      expect(select).to.be.calledWith(Selectors.navigations);
     });
   });
 });

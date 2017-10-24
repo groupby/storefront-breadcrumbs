@@ -15,8 +15,7 @@ class Breadcrumbs {
   };
 
   constructor() {
-    const state = this.flux.store.getState();
-    this.state = { fields: [], originalQuery: Selectors.query(state) };
+    this.state = { fields: [], originalQuery: this.select(Selectors.query) };
   }
 
   init() {
@@ -37,7 +36,7 @@ class Breadcrumbs {
     this.set({ correctedQuery })
 
   updateFields = () => {
-    const navigations = Selectors.navigations(this.flux.store.getState());
+    const navigations = this.select(Selectors.navigations);
     this.set({
       fields: navigations.filter((navigation) => navigation.selected.length !== 0)
         .map((navigation) => navigation.field)
