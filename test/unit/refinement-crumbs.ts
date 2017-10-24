@@ -153,5 +153,17 @@ suite('RefinementCrumbs', ({ expect, spy, stub }) => {
       });
       expect(select).to.be.calledWith(Selectors.navigation, field);
     });
+
+    it('should return undefined if navigation is undefined', () => {
+      const field = refinementCrumbs.field = 'hat';
+      const select = refinementCrumbs.select = spy(() => undefined);
+      const state = { a: 'b' };
+      refinementCrumbs.flux = <any>{ store: { getState: () => state } };
+
+      const refinements = refinementCrumbs.selectRefinements();
+
+      expect(refinements).to.eql(undefined);
+      expect(select).to.be.calledWith(Selectors.navigation, field);
+    });
   });
 });
