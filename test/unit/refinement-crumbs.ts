@@ -156,7 +156,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub }) => {
 
     it('should return undefined if navigation is undefined', () => {
       const field = refinementCrumbs.field = 'hat';
-      const select = refinementCrumbs.select = spy(() => undefined);
+      const select = refinementCrumbs.select = spy();
       const state = { a: 'b' };
       refinementCrumbs.flux = <any>{ store: { getState: () => state } };
 

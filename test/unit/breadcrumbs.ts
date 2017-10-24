@@ -7,10 +7,10 @@ const QUERY = 'ballroom shoes';
 
 suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlias }) => {
   let breadcrumbs: Breadcrumbs;
-  let select: sinon.SinonSpy;
+  let select: sinon.SinonStub;
 
   beforeEach(() => {
-    select = Breadcrumbs.prototype.select = <any>spy(() => QUERY);
+    select = Breadcrumbs.prototype.select = stub().returns(QUERY);
     Breadcrumbs.prototype.flux = <any>{};
     breadcrumbs = new Breadcrumbs();
   });
@@ -114,7 +114,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     it('should set fields', () => {
       const state = { a: 'b' };
       const navigations = [{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
-      select = breadcrumbs.select = <any>spy(() => navigations);
+      select.returns(navigations);
       const set = breadcrumbs.set = spy();
       breadcrumbs.flux = <any>{ store: { getState: () => state } };
 
