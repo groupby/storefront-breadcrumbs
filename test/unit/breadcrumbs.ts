@@ -7,9 +7,10 @@ const QUERY = 'ballroom shoes';
 
 suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlias }) => {
   let breadcrumbs: Breadcrumbs;
+  let select: sinon.SinonSpy;
 
   beforeEach(() => {
-    Breadcrumbs.prototype.select = <any>spy(() => QUERY);
+    select = Breadcrumbs.prototype.select = <any>spy(() => QUERY);
     Breadcrumbs.prototype.flux = <any>{};
     breadcrumbs = new Breadcrumbs();
   });
@@ -34,7 +35,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
 
     describe('state', () => {
       it('should set initial value', () => {
-        expect(Breadcrumbs.prototype.select).to.be.calledWith(Selectors.query);
+        expect(select).to.be.calledWith(Selectors.query);
         expect(breadcrumbs.state).to.eql({
           fields: [],
           originalQuery: QUERY
@@ -110,14 +111,14 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     it('should set fields', () => {
       const state = { a: 'b' };
       const navigations = [{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
-      const select = breadcrumbs.select = <any>spy(() => navigations);
+      const localSelect = breadcrumbs.select = <any>spy(() => navigations);
       const set = breadcrumbs.set = spy();
       breadcrumbs.flux = <any>{ store: { getState: () => state } };
 
       breadcrumbs.updateFields();
 
       expect(set).to.be.calledWith({ fields: ['c', 'd'] });
-      expect(select).to.be.calledWith(Selectors.navigations);
+      expect(localSelect).to.be.calledWith(Selectors.navigations);
     });
   });
 });
