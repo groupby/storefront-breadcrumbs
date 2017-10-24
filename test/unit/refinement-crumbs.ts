@@ -162,7 +162,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub }) => {
 
       const refinements = refinementCrumbs.selectRefinements();
 
-      expect(refinements).to.eql(undefined);
+      expect(refinements).to.be.undefined;
       expect(select).to.be.calledWith(Selectors.navigation, field);
     });
   });
