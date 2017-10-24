@@ -4,14 +4,13 @@ import Breadcrumbs from '../../src/breadcrumbs';
 import suite from './_suite';
 
 const QUERY = 'ballroom shoes';
-const STATE = { a: 'b' };
 
 suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlias }) => {
   let breadcrumbs: Breadcrumbs;
 
   beforeEach(() => {
     Breadcrumbs.prototype.select = <any>spy(() => QUERY);
-    Breadcrumbs.prototype.flux = <any>{ store: { getState: () => STATE } };
+    Breadcrumbs.prototype.flux = <any>{};
     breadcrumbs = new Breadcrumbs();
   });
   afterEach(() => delete Breadcrumbs.prototype.flux);
