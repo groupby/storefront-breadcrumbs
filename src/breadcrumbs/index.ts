@@ -24,6 +24,14 @@ class Breadcrumbs {
       labels: this.props.labels,
       showLabels: this.props.showLabels
     };
+
+    const originalQuery = this.select(Selectors.query);
+    const correctedQuery = this.select(Selectors.currentQuery);
+    if (originalQuery !== correctedQuery) {
+      this.updateCorrectedQuery(correctedQuery);
+    }
+    this.updateOriginalQuery(originalQuery);
+
     this.flux.on(Events.ORIGINAL_QUERY_UPDATED, this.updateOriginalQuery);
     this.flux.on(Events.CORRECTED_QUERY_UPDATED, this.updateCorrectedQuery);
     this.flux.on(Events.NAVIGATIONS_UPDATED, this.updateFields);
