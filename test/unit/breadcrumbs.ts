@@ -4,13 +4,16 @@ import Breadcrumbs from '../../src/breadcrumbs';
 import suite from './_suite';
 
 const QUERY = 'ballroom shoes';
+const CORRECTED_QUERY = 'giraffe';
 
 suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveAlias }) => {
   let breadcrumbs: Breadcrumbs;
   let select: sinon.SinonStub;
 
   beforeEach(() => {
-    select = Breadcrumbs.prototype.select = stub().returns(QUERY);
+    select = Breadcrumbs.prototype.select = stub();
+    select.withArgs(Selectors.query).returns(QUERY);
+    select.withArgs(Selectors.currentQuery).returns(QUERY);
     Breadcrumbs.prototype.flux = <any>{};
     breadcrumbs = new Breadcrumbs();
   });
@@ -53,6 +56,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
       const showLabels = false;
       breadcrumbs.flux = <any>{ on: () => null };
       breadcrumbs.props = <any>{ labels, showLabels };
+      breadcrumbs.updateOriginalQuery = spy();
 
       breadcrumbs.init();
 
@@ -60,9 +64,32 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
       expect(breadcrumbs.state.labels).to.eq(labels);
     });
 
+    it('should call updateOriginalQuery', () => {
+      const on = spy();
+      breadcrumbs.flux = <any>{ on };
+      const updateOriginalQuery = breadcrumbs.updateOriginalQuery = spy();
+
+      breadcrumbs.init();
+
+      expect(updateOriginalQuery).to.be.calledOnce;
+    });
+
+    it('should call updateOriginalQuery', () => {
+      const on = spy();
+      breadcrumbs.flux = <any>{ on };
+      breadcrumbs.updateOriginalQuery = spy();
+      const updateCorrectedQuery = breadcrumbs.updateCorrectedQuery = spy();
+      select.withArgs(Selectors.currentQuery).returns(CORRECTED_QUERY);
+
+      breadcrumbs.init();
+
+      expect(updateCorrectedQuery).to.be.calledOnce;
+    });
+
     it('should listen for ORIGINAL_QUERY_UPDATED', () => {
       const on = spy();
       breadcrumbs.flux = <any>{ on };
+      breadcrumbs.updateOriginalQuery = spy();
 
       breadcrumbs.init();
 
@@ -72,6 +99,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     it('should listen for CORRECTED_QUERY_UPDATED', () => {
       const on = spy();
       breadcrumbs.flux = <any>{ on };
+      breadcrumbs.updateOriginalQuery = spy();
 
       breadcrumbs.init();
 
@@ -81,6 +109,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     it('should listen for NAVIGATIONS_UPDATED', () => {
       const on = spy();
       breadcrumbs.flux = <any>{ on };
+      breadcrumbs.updateOriginalQuery = spy();
 
       breadcrumbs.init();
 
