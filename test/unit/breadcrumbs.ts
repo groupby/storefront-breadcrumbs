@@ -65,7 +65,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     });
 
     it('should call updateOriginalQuery', () => {
-      const on = spy();
+      const on = () => null;
       breadcrumbs.flux = <any>{ on };
       const updateOriginalQuery = breadcrumbs.updateOriginalQuery = spy();
 
@@ -75,7 +75,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     });
 
     it('should call updateOriginalQuery', () => {
-      const on = spy();
+      const on = () => null;
       breadcrumbs.flux = <any>{ on };
       breadcrumbs.updateOriginalQuery = spy();
       const updateCorrectedQuery = breadcrumbs.updateCorrectedQuery = spy();
@@ -89,7 +89,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     it('should listen for ORIGINAL_QUERY_UPDATED', () => {
       const on = spy();
       breadcrumbs.flux = <any>{ on };
-      breadcrumbs.updateOriginalQuery = spy();
+      breadcrumbs.updateOriginalQuery = () => null;
 
       breadcrumbs.init();
 
@@ -99,7 +99,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     it('should listen for CORRECTED_QUERY_UPDATED', () => {
       const on = spy();
       breadcrumbs.flux = <any>{ on };
-      breadcrumbs.updateOriginalQuery = spy();
+      breadcrumbs.updateOriginalQuery = () => null;
 
       breadcrumbs.init();
 
@@ -109,7 +109,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     it('should listen for NAVIGATIONS_UPDATED', () => {
       const on = spy();
       breadcrumbs.flux = <any>{ on };
-      breadcrumbs.updateOriginalQuery = spy();
+      breadcrumbs.updateOriginalQuery = () => null;
 
       breadcrumbs.init();
 
