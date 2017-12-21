@@ -14,9 +14,10 @@ class Breadcrumbs {
     }
   };
 
-  constructor() {
-    this.state = { fields: [], originalQuery: this.select(Selectors.query) };
-  }
+  state: Breadcrumbs.State = {
+    fields: [],
+    originalQuery: this.select(Selectors.query)
+  };
 
   init() {
     this.state = {
@@ -25,12 +26,12 @@ class Breadcrumbs {
       showLabels: this.props.showLabels
     };
 
-    const originalQuery = this.select(Selectors.query);
+    // force update on init, note that originalQuery is set in constructor
     const correctedQuery = this.select(Selectors.currentQuery);
-    if (originalQuery !== correctedQuery) {
+
+    if (this.state.originalQuery !== correctedQuery) {
       this.updateCorrectedQuery(correctedQuery);
     }
-    this.updateOriginalQuery(originalQuery);
 
     this.flux.on(Events.ORIGINAL_QUERY_UPDATED, this.updateOriginalQuery);
     this.flux.on(Events.CORRECTED_QUERY_UPDATED, this.updateCorrectedQuery);

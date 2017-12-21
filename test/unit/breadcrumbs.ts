@@ -67,16 +67,6 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     it('should call updateOriginalQuery', () => {
       const on = () => null;
       breadcrumbs.flux = <any>{ on };
-      const updateOriginalQuery = breadcrumbs.updateOriginalQuery = spy();
-
-      breadcrumbs.init();
-
-      expect(updateOriginalQuery).to.be.calledOnce;
-    });
-
-    it('should call updateOriginalQuery', () => {
-      const on = () => null;
-      breadcrumbs.flux = <any>{ on };
       breadcrumbs.updateOriginalQuery = spy();
       const updateCorrectedQuery = breadcrumbs.updateCorrectedQuery = spy();
       select.withArgs(Selectors.currentQuery).returns(CORRECTED_QUERY);
