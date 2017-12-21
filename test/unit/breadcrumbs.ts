@@ -64,7 +64,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
       expect(breadcrumbs.state.labels).to.eq(labels);
     });
 
-    it('should call updateOriginalQuery', () => {
+    it('should call updateCorrectedQuery', () => {
       const on = () => null;
       breadcrumbs.flux = <any>{ on };
       breadcrumbs.updateOriginalQuery = spy();
