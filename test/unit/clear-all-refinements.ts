@@ -13,7 +13,7 @@ suite('ClearAllRefinements', ({ expect, spy }) => {
 
       clearAllRefinements.onClick();
 
-      expect(resetRefinements).to.be.called;
+      expect(resetRefinements).to.be.calledWithExactly(true);
     });
   });
 });
