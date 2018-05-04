@@ -20,6 +20,10 @@ class RefinementCrumbs {
     this.updateAlias('refinementCrumbs', this.state);
   }
 
+  onUnmount() {
+    this.flux.off(`${Events.SELECTED_REFINEMENTS_UPDATED}:${this.field}`, this.updateRefinements);
+  }
+
   updateField(field: string) {
     this.flux.off(`${Events.SELECTED_REFINEMENTS_UPDATED}:${this.field}`, this.updateRefinements);
     this.field = field;
