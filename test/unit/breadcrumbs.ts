@@ -54,7 +54,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     it('should update state with labels', () => {
       const labels = { a: 'b' };
       const showLabels = false;
-      breadcrumbs.flux = <any>{ on: () => null };
+      breadcrumbs.subscribe = () => null;
       breadcrumbs.props = <any>{ labels, showLabels };
       breadcrumbs.updateOriginalQuery = spy();
 
@@ -65,8 +65,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     });
 
     it('should call updateCorrectedQuery', () => {
-      const on = () => null;
-      breadcrumbs.flux = <any>{ on };
+      breadcrumbs.subscribe = () => null;
       breadcrumbs.updateOriginalQuery = spy();
       const updateCorrectedQuery = breadcrumbs.updateCorrectedQuery = spy();
       select.withArgs(Selectors.currentQuery).returns(CORRECTED_QUERY);
@@ -77,33 +76,30 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldHaveA
     });
 
     it('should listen for ORIGINAL_QUERY_UPDATED', () => {
-      const on = spy();
-      breadcrumbs.flux = <any>{ on };
+      const subscribe = breadcrumbs.subscribe = spy();
       breadcrumbs.updateOriginalQuery = () => null;
 
       breadcrumbs.init();
 
-      expect(on).to.be.calledWith(Events.ORIGINAL_QUERY_UPDATED, breadcrumbs.updateOriginalQuery);
+      expect(subscribe).to.be.calledWith(Events.ORIGINAL_QUERY_UPDATED, breadcrumbs.updateOriginalQuery);
     });
 
     it('should listen for CORRECTED_QUERY_UPDATED', () => {
-      const on = spy();
-      breadcrumbs.flux = <any>{ on };
+      const subscribe = breadcrumbs.subscribe = spy();
       breadcrumbs.updateOriginalQuery = () => null;
 
       breadcrumbs.init();
 
-      expect(on).to.be.calledWith(Events.CORRECTED_QUERY_UPDATED, breadcrumbs.updateCorrectedQuery);
+      expect(subscribe).to.be.calledWith(Events.CORRECTED_QUERY_UPDATED, breadcrumbs.updateCorrectedQuery);
     });
 
     it('should listen for NAVIGATIONS_UPDATED', () => {
-      const on = spy();
-      breadcrumbs.flux = <any>{ on };
+      const subscribe = breadcrumbs.subscribe = spy();
       breadcrumbs.updateOriginalQuery = () => null;
 
       breadcrumbs.init();
 
-      expect(on).to.be.calledWith(Events.NAVIGATIONS_UPDATED, breadcrumbs.updateFields);
+      expect(subscribe).to.be.calledWith(Events.NAVIGATIONS_UPDATED, breadcrumbs.updateFields);
     });
   });
 
