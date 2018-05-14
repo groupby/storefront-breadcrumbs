@@ -2,10 +2,12 @@ import { Events, Selectors } from '@storefront/core';
 import RefinementCrumbs from '../../src/refinement-crumbs';
 import suite from './_suite';
 
-suite('RefinementCrumbs', ({ expect, spy, stub }) => {
+suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
   let refinementCrumbs: RefinementCrumbs;
 
   beforeEach(() => (refinementCrumbs = new RefinementCrumbs()));
+
+  itShouldProvideAlias(RefinementCrumbs, 'refinementCrumbs');
 
   describe('constructor()', () => {
     describe('state', () => {

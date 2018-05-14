@@ -1,10 +1,12 @@
 import ClearRefinement from '../../src/clear-refinement';
 import suite from './_suite';
 
-suite('ClearRefinement', ({ expect, spy }) => {
+suite('ClearRefinement', ({ expect, spy, itShouldProvideAlias }) => {
   let clearRefinement: ClearRefinement;
 
   beforeEach(() => (clearRefinement = new ClearRefinement()));
+
+  itShouldProvideAlias(ClearRefinement, 'clearRefinement');
 
   describe('constructor()', () => {
     describe('state', () => {
