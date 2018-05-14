@@ -1,2 +1,2 @@
-<span if="{ $breadcrumbs.showLabels && $breadcrumbs.originalQuery }">{ $breadcrumbs.labels[$breadcrumbs.correctedQuery ? 'noResults' : 'results'] }</span>
-<span>{ $breadcrumbs.originalQuery }</span>
+<span if="{ props.label }">{ props.label }</span>
+<span><yield/></span>

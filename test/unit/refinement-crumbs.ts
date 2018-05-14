@@ -5,7 +5,7 @@ import suite from './_suite';
 suite('RefinementCrumbs', ({ expect, spy, stub }) => {
   let refinementCrumbs: RefinementCrumbs;
 
-  beforeEach(() => refinementCrumbs = new RefinementCrumbs());
+  beforeEach(() => (refinementCrumbs = new RefinementCrumbs()));
 
   describe('constructor()', () => {
     describe('state', () => {
@@ -15,97 +15,60 @@ suite('RefinementCrumbs', ({ expect, spy, stub }) => {
     });
   });
 
-  describe('init()', () => {
-    it('should call updateField()', () => {
-      const field = 'material';
-      const updateField = refinementCrumbs.updateField = spy();
-      refinementCrumbs.updateRefinements = () => null;
-      refinementCrumbs.props = { field };
+  describe('onBeforeMount()', () => {
+    it('should call updateState()', () => {
+      const updateState = (refinementCrumbs.updateState = spy());
 
-      refinementCrumbs.init();
+      refinementCrumbs.onBeforeMount();
 
-      expect(updateField).to.be.calledWith(field);
-    });
-
-    it('should call updateRefinements()', () => {
-      const updateRefinements = refinementCrumbs.updateRefinements = spy();
-      refinementCrumbs.updateField = () => null;
-      refinementCrumbs.props = <any>{};
-
-      refinementCrumbs.init();
-
-      expect(updateRefinements).to.be.called;
+      expect(updateState).to.be.called;
     });
   });
 
   describe('onUpdate()', () => {
-    it('should call updateField()', () => {
-      const field = 'material';
-      const updateField = refinementCrumbs.updateField = spy();
-      refinementCrumbs.selectRefinements = () => null;
-      refinementCrumbs.updateAlias = () => null;
-      refinementCrumbs.props = { field };
+    it('should call updateState()', () => {
+      const updateState = (refinementCrumbs.updateState = spy());
 
       refinementCrumbs.onUpdate();
 
-      expect(updateField).to.be.calledWith(field);
-    });
-
-    it('should update the state', () => {
-      const newState: any = { a: 'b' };
-      refinementCrumbs.updateField = () => null;
-      refinementCrumbs.selectRefinements = () => newState;
-      refinementCrumbs.updateAlias = () => null;
-      refinementCrumbs.props = <any>{ field: 'material' };
-      refinementCrumbs.state = <any>{};
-
-      refinementCrumbs.onUpdate();
-
-      expect(refinementCrumbs.state).to.eq(newState);
-    });
-
-    it('should call updateAlias()', () => {
-      const newState: any = { a: 'b' };
-      const updateAlias = refinementCrumbs.updateAlias = spy();
-      refinementCrumbs.updateField = () => null;
-      refinementCrumbs.selectRefinements = () => newState;
-      refinementCrumbs.props = <any>{ field: 'material' };
-      refinementCrumbs.state = <any>{};
-
-      refinementCrumbs.onUpdate();
-
-      expect(updateAlias).to.be.calledWith('refinementCrumbs', newState);
+      expect(updateState).to.be.called;
     });
   });
 
-  describe('updateField()', () => {
+  describe('updateState()', () => {
     it('should update field', () => {
       const field = 'material';
-      refinementCrumbs.field = 'brand';
-      refinementCrumbs.flux = <any>{ off: () => null, on: () => null };
+      refinementCrumbs.props = { field };
+      refinementCrumbs.previousField = 'brand';
+      refinementCrumbs.flux = { off: () => null, on: () => null } as any;
+      refinementCrumbs.selectRefinements = () => null;
 
-      refinementCrumbs.updateField(field);
+      refinementCrumbs.updateState();
 
-      expect(refinementCrumbs.field).to.eq(field);
+      expect(refinementCrumbs.previousField).to.eq(field);
     });
 
     it('should remove old listener', () => {
-      const field = refinementCrumbs.field = 'brand';
       const off = spy();
-      refinementCrumbs.flux = <any>{ off, on: () => null };
+      const previousField = (refinementCrumbs.previousField = refinementCrumbs.previousField = 'brand');
+      refinementCrumbs.props = { field: 'material' };
+      refinementCrumbs.flux = { off, on: () => null } as any;
+      refinementCrumbs.selectRefinements = () => null;
 
-      refinementCrumbs.updateField('material');
+      refinementCrumbs.updateState();
 
-      expect(off).to.be.calledWith(`${Events.SELECTED_REFINEMENTS_UPDATED}:${field}`);
+      expect(off).to.be.calledWith(`${Events.SELECTED_REFINEMENTS_UPDATED}:${previousField}`);
     });
 
     it('should listen for SELECTED_REFINEMENTS_UPDATED', () => {
       const field = 'material';
       const on = spy();
-      refinementCrumbs.field = 'brand';
-      refinementCrumbs.flux = <any>{ on, off: () => null };
+      refinementCrumbs.props = { field };
+      refinementCrumbs.previousField = 'brand';
+      refinementCrumbs.flux = { on, off: () => null } as any;
+      refinementCrumbs.selectRefinements = () => null;
 
-      refinementCrumbs.updateField('material');
+      refinementCrumbs.updateState();
 
       expect(on).to.be.calledWith(`${Events.SELECTED_REFINEMENTS_UPDATED}:${field}`);
     });
@@ -114,7 +77,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub }) => {
   describe('updateRefinements()', () => {
     it('should update state', () => {
       const newState: any = { a: 'b' };
-      const update = refinementCrumbs.update = spy();
+      const update = (refinementCrumbs.update = spy());
       refinementCrumbs.selectRefinements = () => newState;
 
       refinementCrumbs.updateRefinements();
@@ -135,9 +98,10 @@ suite('RefinementCrumbs', ({ expect, spy, stub }) => {
         selected,
         refinements: [{ a: 'b' }, { c: 'd' }, { e: 'f' }],
       };
-      const field = refinementCrumbs.field = 'colour';
-      const select = refinementCrumbs.select = spy(() => navigation);
-      refinementCrumbs.flux = <any>{ store: { getState: () => state } };
+      const field = 'colour';
+      const select = (refinementCrumbs.select = spy(() => navigation));
+      refinementCrumbs.props = { field };
+      refinementCrumbs.flux = { store: { getState: () => state } } as any;
 
       const refinements = refinementCrumbs.selectRefinements();
 
@@ -149,16 +113,17 @@ suite('RefinementCrumbs', ({ expect, spy, stub }) => {
         refinements: [
           { field, range, index: 0, selected: true, a: 'b' },
           { field, range, index: 2, selected: true, e: 'f' },
-        ]
+        ],
       });
       expect(select).to.be.calledWith(Selectors.navigation, field);
     });
 
     it('should return undefined if navigation is undefined', () => {
-      const field = refinementCrumbs.field = 'hat';
-      const select = refinementCrumbs.select = spy();
+      const field = 'hat';
+      const select = (refinementCrumbs.select = spy());
       const state = { a: 'b' };
-      refinementCrumbs.flux = <any>{ store: { getState: () => state } };
+      refinementCrumbs.props = { field };
+      refinementCrumbs.flux = { store: { getState: () => state } } as any;
 
       const refinements = refinementCrumbs.selectRefinements();
 

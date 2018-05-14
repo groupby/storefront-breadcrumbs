@@ -4,7 +4,7 @@ import suite from './_suite';
 suite('ClearQuery', ({ expect, spy }) => {
   let clearQuery: ClearQuery;
 
-  beforeEach(() => clearQuery = new ClearQuery());
+  beforeEach(() => (clearQuery = new ClearQuery()));
 
   describe('constructor()', () => {
     describe('state', () => {

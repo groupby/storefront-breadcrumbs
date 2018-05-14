@@ -4,7 +4,7 @@ import suite from './_suite';
 suite('ClearAllRefinements', ({ expect, spy }) => {
   let clearAllRefinements: ClearAllRefinements;
 
-  beforeEach(() => clearAllRefinements = new ClearAllRefinements());
+  beforeEach(() => (clearAllRefinements = new ClearAllRefinements()));
 
   describe('onClick()', () => {
     it('should call actions.resetRefinements()', () => {

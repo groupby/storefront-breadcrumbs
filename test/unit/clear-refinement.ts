@@ -4,7 +4,7 @@ import suite from './_suite';
 suite('ClearRefinement', ({ expect, spy }) => {
   let clearRefinement: ClearRefinement;
 
-  beforeEach(() => clearRefinement = new ClearRefinement());
+  beforeEach(() => (clearRefinement = new ClearRefinement()));
 
   describe('constructor()', () => {
     describe('state', () => {

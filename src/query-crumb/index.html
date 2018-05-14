@@ -1,5 +1,5 @@
 <yield>
-  <gb-original-query></gb-original-query>
-  <gb-corrected-query></gb-corrected-query>
-  <gb-clear-query if="{ $breadcrumbs.originalQuery }"></gb-clear-query>
+  <gb-original-query label="{ props.labels[props.correctedQuery ? 'noResults' : 'results'] }">{ props.originalQuery }</gb-original-query>
+  <gb-corrected-query label="{ props.showLabels && props.correctedQuery && props.labels.corrected }">{ props.correctedQuery }</gb-corrected-query>
+  <gb-clear-query if="{ props.originalQuery }"></gb-clear-query>
 </yield>
