@@ -4,14 +4,8 @@ import ClearQuery from './clear-query';
 import ClearRefinement from './clear-refinement';
 import './corrected-query';
 import './original-query';
-import './query-crumb';
+import QueryCrumb from './query-crumb';
 import './refinement-crumb';
 import RefinementCrumbs from './refinement-crumbs';
 
-export {
-  Breadcrumbs,
-  ClearAllRefinements,
-  ClearQuery,
-  ClearRefinement,
-  RefinementCrumbs
-};
+export { Breadcrumbs, ClearAllRefinements, ClearQuery, ClearRefinement, RefinementCrumbs, QueryCrumb };
