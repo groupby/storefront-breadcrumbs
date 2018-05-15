@@ -1,3 +1,3 @@
-import { view } from '@storefront/core';
+import { view, Tag } from '@storefront/core';
 
 view('gb-corrected-query', require('./index.html'));

@@ -1,40 +1,38 @@
-import { alias, tag, Events, Selectors, Store, Tag } from '@storefront/core';
+import { provide, tag, Events, Selectors, Store, Tag } from '@storefront/core';
 
-@alias('refinementCrumbs')
+@provide('refinementCrumbs')
 @tag('gb-refinement-crumbs', require('./index.html'))
 class RefinementCrumbs {
-
-  field: string;
+  previousField: string;
   state: RefinementCrumbs.State = {
-    refinements: []
+    refinements: [],
   };
 
-  init() {
-    this.updateField(this.props.field);
-    this.updateRefinements();
+  onBeforeMount() {
+    this.updateState();
   }
 
   onUpdate() {
-    this.updateField(this.props.field);
-    this.state = this.selectRefinements();
-    this.updateAlias('refinementCrumbs', this.state);
+    this.updateState();
   }
 
   onUnmount() {
-    this.flux.off(`${Events.SELECTED_REFINEMENTS_UPDATED}:${this.field}`, this.updateRefinements);
+    this.flux.off(`${Events.SELECTED_REFINEMENTS_UPDATED}:${this.previousField}`, this.updateRefinements);
   }
 
-  updateField(field: string) {
-    this.flux.off(`${Events.SELECTED_REFINEMENTS_UPDATED}:${this.field}`, this.updateRefinements);
-    this.field = field;
-    this.flux.on(`${Events.SELECTED_REFINEMENTS_UPDATED}:${field}`, this.updateRefinements);
+  updateState() {
+    this.flux.off(`${Events.SELECTED_REFINEMENTS_UPDATED}:${this.previousField}`, this.updateRefinements);
+    this.flux.on(`${Events.SELECTED_REFINEMENTS_UPDATED}:${this.props.field}`, this.updateRefinements);
+    this.previousField = this.props.field;
+    this.state = this.selectRefinements();
   }
 
   updateRefinements = () => this.update({ state: this.selectRefinements() });
 
   selectRefinements() {
-    const field = this.field;
+    const { field } = this.props;
     const navigation = this.select(Selectors.navigation, field);
+
     if (navigation) {
       const { range, refinements, selected } = navigation;
 
@@ -49,13 +47,13 @@ class RefinementCrumbs {
             range,
             selected: selected.includes(index),
           }))
-          .filter((refinement) => refinement.selected)
+          .filter((refinement) => refinement.selected),
       };
     }
   }
 }
 
-interface RefinementCrumbs extends Tag<RefinementCrumbs.Props, RefinementCrumbs.State> { }
+interface RefinementCrumbs extends Tag<RefinementCrumbs.Props, RefinementCrumbs.State> {}
 namespace RefinementCrumbs {
   export interface Props extends Tag.Props {
     field: string;

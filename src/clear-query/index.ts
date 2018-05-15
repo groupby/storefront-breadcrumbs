@@ -1,15 +1,14 @@
-import { alias, tag, Tag } from '@storefront/core';
+import { provide, tag, Tag } from '@storefront/core';
 
-@alias('clearQuery')
+@provide('clearQuery')
 @tag('gb-clear-query', require('./index.html'))
 class ClearQuery {
-
   state: ClearQuery.State = {
-    onClick: () => this.actions.resetQuery()
+    onClick: () => this.actions.resetQuery(),
   };
 }
 
-interface ClearQuery extends Tag<any, ClearQuery.State> { }
+interface ClearQuery extends Tag<any, ClearQuery.State> {}
 namespace ClearQuery {
   export interface State {
     onClick(): void;
