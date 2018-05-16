@@ -24,10 +24,10 @@ class RefinementCrumbs {
     this.flux.off(`${Events.SELECTED_REFINEMENTS_UPDATED}:${this.previousField}`, this.updateRefinements);
     this.flux.on(`${Events.SELECTED_REFINEMENTS_UPDATED}:${this.props.field}`, this.updateRefinements);
     this.previousField = this.props.field;
-    this.state = this.selectRefinements();
+    this.state = { ...this.state, ...this.selectRefinements() };
   }
 
-  updateRefinements = () => this.update({ state: this.selectRefinements() });
+  updateRefinements = () => this.set(this.selectRefinements());
 
   selectRefinements() {
     const { field } = this.props;
