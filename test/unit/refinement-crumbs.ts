@@ -79,12 +79,12 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
   describe('updateRefinements()', () => {
     it('should update state', () => {
       const newState: any = { a: 'b' };
-      const update = (refinementCrumbs.update = spy());
+      const set = (refinementCrumbs.set = spy());
       refinementCrumbs.selectRefinements = () => newState;
 
       refinementCrumbs.updateRefinements();
 
-      expect(update).to.be.calledWith({ state: newState });
+      expect(set).to.be.calledWith(newState);
     });
   });
 
