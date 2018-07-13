@@ -7,11 +7,14 @@ const QUERY = 'ballroom shoes';
 const CORRECTED_QUERY = 'giraffe';
 
 suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias }) => {
+  const fields = ['c', 'd'];
   let breadcrumbs: Breadcrumbs;
   let select: sinon.SinonStub;
+  let getFields: sinon.SinonStub;
 
   beforeEach(() => {
     select = Breadcrumbs.prototype.select = stub();
+    getFields = stub(Breadcrumbs.prototype, 'getFields').returns(fields);
     select.withArgs(Selectors.query).returns(QUERY);
     select.withArgs(Selectors.currentQuery).returns(QUERY);
     Breadcrumbs.prototype.flux = <any>{};
@@ -41,16 +44,8 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
 
     describe('state', () => {
       it('should set initial value', () => {
-        const fields = ['c', 'd'];
-        const getFields = stub(Breadcrumbs.prototype, 'getFields').returns(fields);
-
-        breadcrumbs = new Breadcrumbs();
-
         expect(select).to.be.calledWith(Selectors.query);
-        expect(breadcrumbs.state).to.eql({
-          fields,
-          originalQuery: QUERY,
-        });
+        expect(breadcrumbs.state).to.eql({ fields, originalQuery: QUERY });
       });
     });
   });
@@ -120,9 +115,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
 
   describe('updateFields()', () => {
     it('should set fields', () => {
-      const fields = ['c', 'd'];
       const set = (breadcrumbs.set = spy());
-      const getFields = (breadcrumbs.getFields = spy(() => fields));
 
       breadcrumbs.updateFields();
 
@@ -131,15 +124,19 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
   });
 
   describe('getFields()', () => {
+    beforeEach(() => {
+      getFields.restore();
+    });
+
     it('should get fields', () => {
       const state = { a: 'b' };
       const navigations = [{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
       select.returns(navigations);
       breadcrumbs.flux = <any>{ store: { getState: () => state } };
 
-      const fields = breadcrumbs.getFields();
+      const navFields = breadcrumbs.getFields();
 
-      expect(fields).to.be.eql(['c', 'd']);
+      expect(navFields).to.be.eql(['c', 'd']);
       expect(select).to.be.calledWith(Selectors.navigations);
     });
   });
