@@ -23,7 +23,7 @@ class Breadcrumbs {
   };
 
   state: Breadcrumbs.State = {
-    fields: [],
+    fields: this.getFields(),
     originalQuery: this.select(Selectors.query),
   };
 

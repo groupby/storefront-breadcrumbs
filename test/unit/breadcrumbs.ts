@@ -41,9 +41,14 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
 
     describe('state', () => {
       it('should set initial value', () => {
+        const fields = ['c', 'd'];
+        const getFields = stub(Breadcrumbs.prototype, 'getFields').returns(fields);
+
+        breadcrumbs = new Breadcrumbs();
+
         expect(select).to.be.calledWith(Selectors.query);
         expect(breadcrumbs.state).to.eql({
-          fields: [],
+          fields,
           originalQuery: QUERY,
         });
       });
