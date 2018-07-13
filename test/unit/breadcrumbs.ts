@@ -7,14 +7,11 @@ const QUERY = 'ballroom shoes';
 const CORRECTED_QUERY = 'giraffe';
 
 suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvideAlias }) => {
-  const fields = ['c', 'd'];
   let breadcrumbs: Breadcrumbs;
   let select: sinon.SinonStub;
-  let getFields: sinon.SinonStub;
 
   beforeEach(() => {
     select = Breadcrumbs.prototype.select = stub();
-    getFields = stub(Breadcrumbs.prototype, 'getFields').returns(fields);
     select.withArgs(Selectors.query).returns(QUERY);
     select.withArgs(Selectors.currentQuery).returns(QUERY);
     Breadcrumbs.prototype.flux = <any>{};
@@ -41,16 +38,16 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
         });
       });
     });
-
-    describe('state', () => {
-      it('should set initial value', () => {
-        expect(select).to.be.calledWith(Selectors.query);
-        expect(breadcrumbs.state).to.eql({ fields, originalQuery: QUERY });
-      });
-    });
   });
 
   describe('init()', () => {
+    const fields = ['c', 'd'];
+    let getFields;
+
+    beforeEach(() => {
+      getFields = stub(breadcrumbs, 'getFields').returns(fields);
+    });
+
     it('should listen for ORIGINAL_QUERY_UPDATED', () => {
       const subscribe = (breadcrumbs.subscribe = spy());
       breadcrumbs.updateOriginalQuery = () => null;
@@ -77,10 +74,19 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
 
       expect(subscribe).to.be.calledWith(Events.NAVIGATIONS_UPDATED, breadcrumbs.updateFields);
     });
+
+    it('should set initial state', () => {
+      breadcrumbs.subscribe = () => null;
+
+      breadcrumbs.init();
+
+      expect(breadcrumbs.state).to.eql({ fields, originalQuery: QUERY });
+    });
   });
 
   describe('onBeforeMount()', () => {
     it('should call updateCorrectedQuery', () => {
+      breadcrumbs.state = <any>{};
       breadcrumbs.updateOriginalQuery = spy();
       const updateCorrectedQuery = (breadcrumbs.updateCorrectedQuery = spy());
       select.withArgs(Selectors.currentQuery).returns(CORRECTED_QUERY);
@@ -115,7 +121,9 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
 
   describe('updateFields()', () => {
     it('should set fields', () => {
+      const fields = ['a', 'b'];
       const set = (breadcrumbs.set = spy());
+      stub(breadcrumbs, 'getFields').returns(fields);
 
       breadcrumbs.updateFields();
 
@@ -124,10 +132,6 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
   });
 
   describe('getFields()', () => {
-    beforeEach(() => {
-      getFields.restore();
-    });
-
     it('should get fields', () => {
       const state = { a: 'b' };
       const navigations = [{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
