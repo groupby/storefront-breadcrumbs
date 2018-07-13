@@ -38,19 +38,16 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
         });
       });
     });
-
-    describe('state', () => {
-      it('should set initial value', () => {
-        expect(select).to.be.calledWith(Selectors.query);
-        expect(breadcrumbs.state).to.eql({
-          fields: [],
-          originalQuery: QUERY,
-        });
-      });
-    });
   });
 
   describe('init()', () => {
+    const fields = ['c', 'd'];
+    let getFields;
+
+    beforeEach(() => {
+      getFields = stub(breadcrumbs, 'getFields').returns(fields);
+    });
+
     it('should listen for ORIGINAL_QUERY_UPDATED', () => {
       const subscribe = (breadcrumbs.subscribe = spy());
       breadcrumbs.updateOriginalQuery = () => null;
@@ -77,10 +74,19 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
 
       expect(subscribe).to.be.calledWith(Events.NAVIGATIONS_UPDATED, breadcrumbs.updateFields);
     });
+
+    it('should set initial state', () => {
+      breadcrumbs.subscribe = () => null;
+
+      breadcrumbs.init();
+
+      expect(breadcrumbs.state).to.eql({ fields, originalQuery: QUERY });
+    });
   });
 
   describe('onBeforeMount()', () => {
     it('should call updateCorrectedQuery', () => {
+      breadcrumbs.state = <any>{};
       breadcrumbs.updateOriginalQuery = spy();
       const updateCorrectedQuery = (breadcrumbs.updateCorrectedQuery = spy());
       select.withArgs(Selectors.currentQuery).returns(CORRECTED_QUERY);
@@ -115,15 +121,26 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
 
   describe('updateFields()', () => {
     it('should set fields', () => {
-      const state = { a: 'b' };
-      const navigations = [{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
-      select.returns(navigations);
+      const fields = ['a', 'b'];
       const set = (breadcrumbs.set = spy());
-      breadcrumbs.flux = <any>{ store: { getState: () => state } };
+      stub(breadcrumbs, 'getFields').returns(fields);
 
       breadcrumbs.updateFields();
 
-      expect(set).to.be.calledWith({ fields: ['c', 'd'] });
+      expect(set).to.be.calledWith({ fields });
+    });
+  });
+
+  describe('getFields()', () => {
+    it('should get fields', () => {
+      const state = { a: 'b' };
+      const navigations = [{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
+      select.returns(navigations);
+      breadcrumbs.flux = <any>{ store: { getState: () => state } };
+
+      const navFields = breadcrumbs.getFields();
+
+      expect(navFields).to.be.eql(['c', 'd']);
       expect(select).to.be.calledWith(Selectors.navigations);
     });
   });

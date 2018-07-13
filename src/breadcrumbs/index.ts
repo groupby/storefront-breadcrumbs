@@ -22,11 +22,6 @@ class Breadcrumbs {
     },
   };
 
-  state: Breadcrumbs.State = {
-    fields: [],
-    originalQuery: this.select(Selectors.query),
-  };
-
   queryProps() {
     const { showLabels, labels } = this.props;
     const { originalQuery, correctedQuery } = this.state;
@@ -37,6 +32,7 @@ class Breadcrumbs {
     this.subscribe(Events.ORIGINAL_QUERY_UPDATED, this.updateOriginalQuery);
     this.subscribe(Events.CORRECTED_QUERY_UPDATED, this.updateCorrectedQuery);
     this.subscribe(Events.NAVIGATIONS_UPDATED, this.updateFields);
+    this.state = { fields: this.getFields(), originalQuery: this.select(Selectors.query) };
   }
 
   onBeforeMount() {
@@ -52,13 +48,12 @@ class Breadcrumbs {
 
   updateCorrectedQuery = (correctedQuery: string) => this.set({ correctedQuery });
 
-  updateFields = () => {
-    const navigations = this.select(Selectors.navigations);
-    this.set({
-      fields: navigations
-        .filter((navigation) => navigation.selected.length !== 0)
-        .map((navigation) => navigation.field),
-    });
+  updateFields = () => this.set({ fields: this.getFields() });
+
+  getFields() {
+    return this.select(Selectors.navigations)
+      .filter((navigation) => navigation.selected.length !== 0)
+      .map((navigation) => navigation.field);
   }
 }
 
