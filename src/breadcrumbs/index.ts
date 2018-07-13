@@ -52,13 +52,12 @@ class Breadcrumbs {
 
   updateCorrectedQuery = (correctedQuery: string) => this.set({ correctedQuery });
 
-  updateFields = () => {
-    const navigations = this.select(Selectors.navigations);
-    this.set({
-      fields: navigations
-        .filter((navigation) => navigation.selected.length !== 0)
-        .map((navigation) => navigation.field),
-    });
+  updateFields = () => this.set({ fields: this.getFields() });
+
+  getFields() {
+    return this.select(Selectors.navigations)
+      .filter((navigation) => navigation.selected.length !== 0)
+      .map((navigation) => navigation.field);
   }
 }
 

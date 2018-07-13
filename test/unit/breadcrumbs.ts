@@ -115,15 +115,26 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
 
   describe('updateFields()', () => {
     it('should set fields', () => {
-      const state = { a: 'b' };
-      const navigations = [{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
-      select.returns(navigations);
+      const fields = ['c', 'd'];
       const set = (breadcrumbs.set = spy());
-      breadcrumbs.flux = <any>{ store: { getState: () => state } };
+      const getFields = (breadcrumbs.getFields = spy(() => fields));
 
       breadcrumbs.updateFields();
 
-      expect(set).to.be.calledWith({ fields: ['c', 'd'] });
+      expect(set).to.be.calledWith({ fields });
+    });
+  });
+
+  describe('getFields()', () => {
+    it('should get fields', () => {
+      const state = { a: 'b' };
+      const navigations = [{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
+      select.returns(navigations);
+      breadcrumbs.flux = <any>{ store: { getState: () => state } };
+
+      const fields = breadcrumbs.getFields();
+
+      expect(fields).to.be.eql(['c', 'd']);
       expect(select).to.be.calledWith(Selectors.navigations);
     });
   });
