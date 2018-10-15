@@ -1,4 +1,4 @@
-import { Events, Selectors } from '@storefront/core';
+import { Events, Selectors, StoreSections } from '@storefront/core';
 import * as sinon from 'sinon';
 import Breadcrumbs from '../../src/breadcrumbs';
 import suite from './_suite';
@@ -45,34 +45,30 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
     let getFields;
 
     beforeEach(() => {
+      breadcrumbs.state = { fields, originalQuery: '' };
       getFields = stub(breadcrumbs, 'getFields').returns(fields);
     });
 
-    it('should listen for ORIGINAL_QUERY_UPDATED', () => {
+    it('should listen for ORIGINAL_QUERY_UPDATED, CORRECTED_QUERY_UPDATED and NAVIGATIONS_UPDATED if the storeSection is search', () => {
       const subscribe = (breadcrumbs.subscribe = spy());
+      breadcrumbs.props.storeSection = StoreSections.SEARCH;
       breadcrumbs.updateOriginalQuery = () => null;
 
       breadcrumbs.init();
 
       expect(subscribe).to.be.calledWith(Events.ORIGINAL_QUERY_UPDATED, breadcrumbs.updateOriginalQuery);
-    });
-
-    it('should listen for CORRECTED_QUERY_UPDATED', () => {
-      const subscribe = (breadcrumbs.subscribe = spy());
-      breadcrumbs.updateOriginalQuery = () => null;
-
-      breadcrumbs.init();
-
       expect(subscribe).to.be.calledWith(Events.CORRECTED_QUERY_UPDATED, breadcrumbs.updateCorrectedQuery);
+      expect(subscribe).to.be.calledWith(Events.NAVIGATIONS_UPDATED, breadcrumbs.updateFields);
     });
 
-    it('should listen for NAVIGATIONS_UPDATED', () => {
+    it('should listen for PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED if the storeSection is pastPurchases', () => {
       const subscribe = (breadcrumbs.subscribe = spy());
+      breadcrumbs.props.storeSection = StoreSections.PAST_PURCHASES;
       breadcrumbs.updateOriginalQuery = () => null;
 
       breadcrumbs.init();
 
-      expect(subscribe).to.be.calledWith(Events.NAVIGATIONS_UPDATED, breadcrumbs.updateFields);
+      expect(subscribe).to.be.calledWith(Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED, breadcrumbs.updateFields);
     });
 
     it('should set initial state', () => {
@@ -81,6 +77,32 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
       breadcrumbs.init();
 
       expect(breadcrumbs.state).to.eql({ fields, originalQuery: QUERY });
+    });
+
+    it('should set the navigationsSelector function to select navigation if the storeSection is search', () => {
+      breadcrumbs.props.storeSection = StoreSections.SEARCH;
+      breadcrumbs.subscribe = () => null;
+      breadcrumbs.updateOriginalQuery = () => null;
+
+      const select = (breadcrumbs.select = spy());
+
+      breadcrumbs.init();
+      breadcrumbs.state.navigationsSelector();
+
+      expect(select).to.be.calledWithExactly(Selectors.navigations);
+    });
+
+    it('should set the navigationsSelector function to select pastPurchaseNavigation if the storeSection is pastPurchases', () => {
+      breadcrumbs.props.storeSection = StoreSections.PAST_PURCHASES;
+      breadcrumbs.subscribe = () => null;
+      breadcrumbs.updateOriginalQuery = () => null;
+
+      const select = (breadcrumbs.select = spy());
+
+      breadcrumbs.init();
+      breadcrumbs.state.navigationsSelector();
+
+      expect(select).to.be.calledWithExactly(Selectors.pastPurchaseNavigations);
     });
   });
 
@@ -133,15 +155,14 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
 
   describe('getFields()', () => {
     it('should get fields', () => {
-      const state = { a: 'b' };
+      breadcrumbs.state = { fields: [], originalQuery: '' };
       const navigations = [{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
-      select.returns(navigations);
-      breadcrumbs.flux = <any>{ store: { getState: () => state } };
+      const select = (breadcrumbs.state.navigationsSelector = spy(() => navigations));
 
       const navFields = breadcrumbs.getFields();
 
+      expect(select).to.be.called;
       expect(navFields).to.be.eql(['c', 'd']);
-      expect(select).to.be.calledWith(Selectors.navigations);
     });
   });
 });

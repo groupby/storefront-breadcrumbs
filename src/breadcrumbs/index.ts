@@ -1,4 +1,4 @@
-import { configurable, provide, tag, Events, Selectors, Tag } from '@storefront/core';
+import { configurable, provide, tag, Events, Selectors, Store, StoreSections, Tag } from '@storefront/core';
 
 @configurable
 @provide<Breadcrumbs.Props, Breadcrumbs.State>(
@@ -29,10 +29,20 @@ class Breadcrumbs {
   }
 
   init() {
-    this.subscribe(Events.ORIGINAL_QUERY_UPDATED, this.updateOriginalQuery);
-    this.subscribe(Events.CORRECTED_QUERY_UPDATED, this.updateCorrectedQuery);
-    this.subscribe(Events.NAVIGATIONS_UPDATED, this.updateFields);
-    this.state = { fields: this.getFields(), originalQuery: this.select(Selectors.query) };
+    switch (this.props.storeSection) {
+      case StoreSections.PAST_PURCHASES:
+        this.subscribe(Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED, this.updateFields);
+        this.state.navigationsSelector = () => this.select(Selectors.pastPurchaseNavigations);
+        break;
+      case StoreSections.SEARCH:
+        this.subscribe(Events.ORIGINAL_QUERY_UPDATED, this.updateOriginalQuery);
+        this.subscribe(Events.CORRECTED_QUERY_UPDATED, this.updateCorrectedQuery);
+        this.subscribe(Events.NAVIGATIONS_UPDATED, this.updateFields);
+        this.state.navigationsSelector = () => this.select(Selectors.navigations);
+        break;
+    }
+
+    this.state = { ...this.state, fields: this.getFields(), originalQuery: this.select(Selectors.query) };
   }
 
   onBeforeMount() {
@@ -51,7 +61,7 @@ class Breadcrumbs {
   updateFields = () => this.set({ fields: this.getFields() });
 
   getFields() {
-    return this.select(Selectors.navigations)
+    return this.state.navigationsSelector()
       .filter((navigation) => navigation.selected.length !== 0)
       .map((navigation) => navigation.field);
   }
@@ -72,6 +82,7 @@ namespace Breadcrumbs {
     fields: string[];
     originalQuery: string;
     correctedQuery?: string;
+    navigationsSelector?: () => Store.Navigation[];
   }
 }
 

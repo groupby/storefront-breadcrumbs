@@ -1,4 +1,4 @@
-import { provide, tag, Events, Selectors, Store, Tag } from '@storefront/core';
+import { provide, tag, Events, Selectors, Store, StoreSections, Tag } from '@storefront/core';
 
 @provide('refinementCrumbs')
 @tag('gb-refinement-crumbs', require('./index.html'))
@@ -8,7 +8,17 @@ class RefinementCrumbs {
     refinements: [],
   };
 
-  onBeforeMount() {
+  init() {
+    switch (this.props.storeSection) {
+      case StoreSections.PAST_PURCHASES:
+        this.state.selectedRefinementsUpdated = Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED;
+        this.state.navigationSelector = (field) => this.select(Selectors.pastPurchaseNavigation, field);
+        break;
+      case StoreSections.SEARCH:
+        this.state.selectedRefinementsUpdated = Events.SELECTED_REFINEMENTS_UPDATED;
+        this.state.navigationSelector = (field) => this.select(Selectors.navigation, field);
+        break;
+    }
     this.updateState();
   }
 
@@ -17,12 +27,13 @@ class RefinementCrumbs {
   }
 
   onUnmount() {
-    this.flux.off(`${Events.SELECTED_REFINEMENTS_UPDATED}:${this.previousField}`, this.updateRefinements);
+    this.flux.off(`${this.state.selectedRefinementsUpdated}:${this.previousField}`, this.updateRefinements);
   }
 
   updateState() {
-    this.flux.off(`${Events.SELECTED_REFINEMENTS_UPDATED}:${this.previousField}`, this.updateRefinements);
-    this.flux.on(`${Events.SELECTED_REFINEMENTS_UPDATED}:${this.props.field}`, this.updateRefinements);
+
+    this.flux.off(`${this.state.selectedRefinementsUpdated}:${this.previousField}`, this.updateRefinements);
+    this.flux.on(`${this.state.selectedRefinementsUpdated}:${this.props.field}`, this.updateRefinements);
     this.previousField = this.props.field;
     this.state = { ...this.state, ...this.selectRefinements() };
   }
@@ -31,7 +42,7 @@ class RefinementCrumbs {
 
   selectRefinements() {
     const { field } = this.props;
-    const navigation = this.select(Selectors.navigation, field);
+    const navigation = this.state.navigationSelector(field);
 
     if (navigation) {
       const { range, refinements, selected } = navigation;
@@ -61,7 +72,9 @@ namespace RefinementCrumbs {
 
   export interface State {
     label?: string;
+    navigationSelector?: (field: string) => any;
     refinements: Store.Refinement[];
+    selectedRefinementsUpdated?: string;
   }
 }
 

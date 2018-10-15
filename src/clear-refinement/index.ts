@@ -1,10 +1,17 @@
-import { provide, tag, Tag } from '@storefront/core';
+import { provide, tag, StoreSections, Tag, Store } from '@storefront/core';
 
 @provide('clearRefinement')
 @tag('gb-clear-refinement', require('./index.html'))
 class ClearRefinement {
   state: ClearRefinement.State = {
-    onClick: () => this.actions.deselectRefinement(this.props.field, this.props.index),
+    onClick: () => {
+      switch (this.props.storeSection) {
+        case StoreSections.PAST_PURCHASES:
+          return this.actions.deselectPastPurchaseRefinement(this.props.field, this.props.index);
+        case StoreSections.SEARCH:
+          return this.actions.deselectRefinement(this.props.field, this.props.index);
+      }
+    }
   };
 }
 
