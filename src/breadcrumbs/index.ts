@@ -29,20 +29,20 @@ class Breadcrumbs {
   }
 
   init() {
+    let navigationsSelector;
     switch (this.props.storeSection) {
       case StoreSections.PAST_PURCHASES:
         this.subscribe(Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED, this.updateFields);
-        this.state.navigationsSelector = () => this.select(Selectors.pastPurchaseNavigations);
+        navigationsSelector = () => this.select(Selectors.pastPurchaseNavigations);
         break;
       case StoreSections.SEARCH:
         this.subscribe(Events.ORIGINAL_QUERY_UPDATED, this.updateOriginalQuery);
         this.subscribe(Events.CORRECTED_QUERY_UPDATED, this.updateCorrectedQuery);
         this.subscribe(Events.NAVIGATIONS_UPDATED, this.updateFields);
-        this.state.navigationsSelector = () => this.select(Selectors.navigations);
+        navigationsSelector = () => this.select(Selectors.navigations);
         break;
     }
-
-    this.state = { ...this.state, fields: this.getFields(), originalQuery: this.select(Selectors.query) };
+    this.state = { fields: this.getFields(), originalQuery: this.select(Selectors.query), navigationsSelector };
   }
 
   onBeforeMount() {

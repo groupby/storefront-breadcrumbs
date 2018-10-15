@@ -9,37 +9,48 @@ suite('ClearRefinement', ({ expect, spy, itShouldProvideAlias }) => {
 
   itShouldProvideAlias(ClearRefinement, 'clearRefinement');
 
-  describe('constructor()', () => {
-    describe('state', () => {
-      describe('onClick()', () => {
-        let field, index;
+  describe('init()', () => {
+    let field, index;
 
-        beforeEach(() => {
-          field = 'brand';
-          index = 13;
-          clearRefinement.props = { field, index };
-        });
+    beforeEach(() => {
+      field = 'brand';
+      index = 13;
+      clearRefinement.props = { field, index };
+      clearRefinement.state = <any>{};
+      clearRefinement.actions = <any>{
+        deselectRefinement: spy(),
+        deselectPastPurchaseRefinement: spy(),
+      };
+    });
 
-        it('should call actions.deselectRefinement() if storeSection is search', () => {
-          const deselectRefinement = spy();
-          clearRefinement.props.storeSection = StoreSections.SEARCH;
-          clearRefinement.actions  = <any>{ deselectRefinement };
+    it('should set state.action to actions.deselectRefinement() if storeSection is search', () => {
+      clearRefinement.props.storeSection = StoreSections.SEARCH;
+      const deselectRefinement = (clearRefinement.actions.deselectRefinement = spy());
 
-          clearRefinement.state.onClick();
+      clearRefinement.init();
+      clearRefinement.state.action();
 
-          expect(deselectRefinement).to.be.calledWith(field, index);
-        });
+      expect(deselectRefinement).to.be.calledWithExactly(field, index);
+    });
 
-        it('should call actions.deselectPastPurchaseRefinement() if storeSection is pastpurchases', () => {
-          const deselectPastPurchaseRefinement = spy();
-          clearRefinement.props.storeSection = StoreSections.PAST_PURCHASES;
-          clearRefinement.actions = <any>{ deselectPastPurchaseRefinement };
+    it('should set state.action to actions.deselectPastPurchaseRefinement() if storeSection is pastpurchases', () => {
+      clearRefinement.props.storeSection = StoreSections.PAST_PURCHASES;
+      const deselectPastPurchaseRefinement = (clearRefinement.actions.deselectPastPurchaseRefinement = spy());
 
-          clearRefinement.state.onClick();
+      clearRefinement.init();
+      clearRefinement.state.action();
 
-          expect(deselectPastPurchaseRefinement).to.be.calledWith(field, index);
-        });
-      });
+      expect(deselectPastPurchaseRefinement).to.be.calledWithExactly(field, index);
+    });
+  });
+
+  describe('onClick()', () => {
+    it('should call state.action()', () => {
+      clearRefinement.state = { action: spy() };
+
+      clearRefinement.onClick();
+
+      expect(clearRefinement.state.action).to.be.called;
     });
   });
 });

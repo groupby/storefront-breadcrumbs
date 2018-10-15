@@ -72,11 +72,13 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
     });
 
     it('should set initial state', () => {
+      breadcrumbs.props = { storeSection: StoreSections.DEFAULT };
       breadcrumbs.subscribe = () => null;
 
       breadcrumbs.init();
+      const navigationsSelector = (breadcrumbs.state.navigationsSelector = spy());
 
-      expect(breadcrumbs.state).to.eql({ fields, originalQuery: QUERY });
+      expect(breadcrumbs.state).to.eql({ fields, originalQuery: QUERY, navigationsSelector });
     });
 
     it('should set the navigationsSelector function to select navigation if the storeSection is search', () => {
