@@ -6,15 +6,13 @@ class ClearRefinement {
   init() {
     switch (this.props.storeSection) {
       case StoreSections.PAST_PURCHASES:
-        this.state = { action: () => this.actions.deselectPastPurchaseRefinement(this.props.field, this.props.index) };
+        this.state = { onClick: () => this.actions.deselectPastPurchaseRefinement(this.props.field, this.props.index) };
         break;
       case StoreSections.SEARCH:
-        this.state = { action: () => this.actions.deselectRefinement(this.props.field, this.props.index) };
+        this.state = { onClick: () => this.actions.deselectRefinement(this.props.field, this.props.index) };
         break;
     }
   }
-
-  onClick = () => this.state.action();
 }
 
 interface ClearRefinement extends Tag<ClearRefinement.Props, ClearRefinement.State> {}
@@ -25,7 +23,7 @@ namespace ClearRefinement {
   }
 
   export interface State {
-    action(): void;
+    onClick(): void;
   }
 }
 
