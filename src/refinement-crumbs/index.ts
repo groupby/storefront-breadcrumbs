@@ -4,9 +4,6 @@ import { provide, tag, Events, Selectors, Store, StoreSections, Tag } from '@sto
 @tag('gb-refinement-crumbs', require('./index.html'))
 class RefinementCrumbs {
   previousField: string;
-  state: RefinementCrumbs.State = {
-    refinements: [],
-  };
 
   init() {
     switch (this.props.storeSection) {
@@ -31,7 +28,6 @@ class RefinementCrumbs {
   }
 
   updateState() {
-
     this.flux.off(`${this.state.selectedRefinementsUpdated}:${this.previousField}`, this.updateRefinements);
     this.flux.on(`${this.state.selectedRefinementsUpdated}:${this.props.field}`, this.updateRefinements);
     this.previousField = this.props.field;
@@ -70,9 +66,8 @@ namespace RefinementCrumbs {
     field: string;
   }
 
-  export interface State {
-    label?: string;
-    navigationSelector?: (field: string) => any;
+  export interface State extends Store.Navigation {
+    navigationSelector?: (field: string) => Store.Navigation;
     refinements: Store.Refinement[];
     selectedRefinementsUpdated?: string;
   }
