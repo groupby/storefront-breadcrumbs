@@ -9,14 +9,6 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
   itShouldProvideAlias(RefinementCrumbs, 'refinementCrumbs');
 
-  describe('constructor()', () => {
-    describe('state', () => {
-      it('should have initial value', () => {
-        expect(refinementCrumbs.state).to.eql({ refinements: [] });
-      });
-    });
-  });
-
   describe('init()', () => {
     let field;
 
@@ -27,6 +19,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
     it('should call updateState()', () => {
       const updateState = (refinementCrumbs.updateState = spy());
+      refinementCrumbs.select = spy();
       refinementCrumbs.props.storeSection = StoreSections.DEFAULT;
 
       refinementCrumbs.init();
@@ -74,6 +67,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
     beforeEach(() => {
       field = 'material';
+      refinementCrumbs.state = <any>{};
       refinementCrumbs.props = { field };
     });
 
@@ -144,6 +138,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
     it('should update state', () => {
       const newState: any = { a: 'b' };
       const set = (refinementCrumbs.set = spy());
+      refinementCrumbs.state = <any>{ navigationSelector: spy() }
       refinementCrumbs.selectRefinements = () => newState;
 
       refinementCrumbs.updateRefinements();
@@ -169,11 +164,11 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
         refinements: [{ a: 'b' }, { c: 'd' }, { e: 'f' }],
       };
       const field = 'colour';
-      const select = (refinementCrumbs.state.navigationSelector = spy(() => navigation));
+      refinementCrumbs.state = <any>{ navigationSelector: spy((field) => navigation) };
       refinementCrumbs.props = { field };
       refinementCrumbs.flux = { store: { getState: () => state } } as any;
 
-      const refinements = refinementCrumbs.selectRefinements();
+      const refinements = refinementCrumbs.selectRefinements(refinementCrumbs.state.navigationSelector);
 
       expect(refinements).to.eql({
         a: 'b',
@@ -185,19 +180,19 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
           { field, range, index: 2, selected: true, e: 'f' },
         ],
       });
-      expect(select).to.be.calledWith(field);
+      expect(refinementCrumbs.state.navigationSelector).to.be.calledWith(field);
     });
 
     it('should return undefined if navigation is undefined', () => {
       const field = 'hat';
-      const select = (refinementCrumbs.state.navigationSelector = spy());
+      refinementCrumbs.state = <any>{ navigationSelector: spy(field => {}) };
       refinementCrumbs.props = { field };
       refinementCrumbs.flux = { store: { getState: () => state } } as any;
 
-      const refinements = refinementCrumbs.selectRefinements();
+      const refinements = refinementCrumbs.selectRefinements(refinementCrumbs.state.navigationSelector);
 
       expect(refinements).to.be.undefined;
-      expect(select).to.be.calledWith(field);
+      expect(refinementCrumbs.state.navigationSelector).to.be.calledWith(field);
     });
   });
 });

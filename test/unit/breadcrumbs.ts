@@ -147,6 +147,7 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
     it('should set fields', () => {
       const fields = ['a', 'b'];
       const set = (breadcrumbs.set = spy());
+      breadcrumbs.state = { fields: [], originalQuery: '', navigationsSelector: () => null };
       stub(breadcrumbs, 'getFields').returns(fields);
 
       breadcrumbs.updateFields();
@@ -158,10 +159,10 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
   describe('getFields()', () => {
     it('should get fields', () => {
       breadcrumbs.state = { fields: [], originalQuery: '' };
-      const navigations = [{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
+      const navigations = <any>[{ selected: [1], field: 'c' }, { selected: [2, 3], field: 'd' }, { selected: [] }];
       const select = (breadcrumbs.state.navigationsSelector = spy(() => navigations));
 
-      const navFields = breadcrumbs.getFields();
+      const navFields = breadcrumbs.getFields(select());
 
       expect(select).to.be.called;
       expect(navFields).to.be.eql(['c', 'd']);

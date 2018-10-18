@@ -21,7 +21,7 @@ suite('ClearAllRefinements', ({ expect, spy, stub }) => {
       const resetRefinements = (clearAllRefinements.actions.resetRefinements = spy());
 
       clearAllRefinements.init();
-      clearAllRefinements.state.action();
+      clearAllRefinements.state.onClick();
 
       expect(resetRefinements).to.be.calledWithExactly(true);
     });
@@ -31,7 +31,7 @@ suite('ClearAllRefinements', ({ expect, spy, stub }) => {
       const resetPastPurchaseRefinements = (clearAllRefinements.actions.resetPastPurchaseRefinements = spy());
 
       clearAllRefinements.init();
-      clearAllRefinements.state.action();
+      clearAllRefinements.state.onClick();
 
       expect(resetPastPurchaseRefinements).to.be.calledWithExactly(true);
     });
@@ -39,11 +39,11 @@ suite('ClearAllRefinements', ({ expect, spy, stub }) => {
 
   describe('onClick()', () => {
     it('should call state.action()', () => {
-      clearAllRefinements.state = { action: spy() };
+      clearAllRefinements.state = { onClick: spy() };
 
-      clearAllRefinements.onClick();
+      clearAllRefinements.state.onClick();
 
-      expect(clearAllRefinements.state.action).to.be.called;
+      expect(clearAllRefinements.state.onClick).to.be.called;
     });
   });
 });

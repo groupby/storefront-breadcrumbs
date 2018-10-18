@@ -28,7 +28,7 @@ suite('ClearRefinement', ({ expect, spy, itShouldProvideAlias }) => {
       const deselectRefinement = (clearRefinement.actions.deselectRefinement = spy());
 
       clearRefinement.init();
-      clearRefinement.state.action();
+      clearRefinement.state.onClick();
 
       expect(deselectRefinement).to.be.calledWithExactly(field, index);
     });
@@ -38,7 +38,7 @@ suite('ClearRefinement', ({ expect, spy, itShouldProvideAlias }) => {
       const deselectPastPurchaseRefinement = (clearRefinement.actions.deselectPastPurchaseRefinement = spy());
 
       clearRefinement.init();
-      clearRefinement.state.action();
+      clearRefinement.state.onClick();
 
       expect(deselectPastPurchaseRefinement).to.be.calledWithExactly(field, index);
     });
@@ -46,11 +46,11 @@ suite('ClearRefinement', ({ expect, spy, itShouldProvideAlias }) => {
 
   describe('onClick()', () => {
     it('should call state.action()', () => {
-      clearRefinement.state = { action: spy() };
+      clearRefinement.state = { onClick: spy() };
 
-      clearRefinement.onClick();
+      clearRefinement.state.onClick();
 
-      expect(clearRefinement.state.action).to.be.called;
+      expect(clearRefinement.state.onClick).to.be.called;
     });
   });
 });
