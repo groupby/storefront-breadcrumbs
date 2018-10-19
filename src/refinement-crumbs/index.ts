@@ -6,7 +6,8 @@ class RefinementCrumbs {
   previousField: string;
 
   init() {
-    let selectedRefinementsUpdated, navigationSelector;
+    let selectedRefinementsUpdated;
+    let navigationSelector;
     switch (this.props.storeSection) {
       case StoreSections.PAST_PURCHASES:
         selectedRefinementsUpdated = Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED;
@@ -37,7 +38,7 @@ class RefinementCrumbs {
 
   updateRefinements = () => this.set(this.selectRefinements(this.state.navigationSelector));
 
-  selectRefinements(getNavigation: (field) => Store.Navigation) {
+  selectRefinements(getNavigation: RefinementCrumbs.NavigationSelector) {
     const { field } = this.props;
     const navigation = getNavigation(field);
 
@@ -67,8 +68,10 @@ namespace RefinementCrumbs {
     field: string;
   }
 
+  export type NavigationSelector = (field: string) => Store.Navigation;
+
   export interface State extends Store.Navigation {
-    navigationSelector?: (field: string) => Store.Navigation;
+    navigationSelector?: NavigationSelector;
     refinements: Store.Refinement[];
     selectedRefinementsUpdated?: string;
   }
