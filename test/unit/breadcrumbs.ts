@@ -85,7 +85,6 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
       breadcrumbs.props.storeSection = StoreSections.SEARCH;
       breadcrumbs.subscribe = () => null;
       breadcrumbs.updateOriginalQuery = () => null;
-
       const select = (breadcrumbs.select = spy());
 
       breadcrumbs.init();
@@ -98,7 +97,6 @@ suite('Breadcrumbs', ({ expect, spy, stub, itShouldBeConfigurable, itShouldProvi
       breadcrumbs.props.storeSection = StoreSections.PAST_PURCHASES;
       breadcrumbs.subscribe = () => null;
       breadcrumbs.updateOriginalQuery = () => null;
-
       const select = (breadcrumbs.select = spy());
 
       breadcrumbs.init();

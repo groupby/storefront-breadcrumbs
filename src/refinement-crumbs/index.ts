@@ -18,7 +18,7 @@ class RefinementCrumbs {
         navigationSelector = (field) => this.select(Selectors.navigation, field);
         break;
     }
-    this.state = { ...this.state, selectedRefinementsUpdated, navigationSelector, ...this.selectRefinements(navigationSelector) };
+    this.state = { selectedRefinementsUpdated, navigationSelector, ...this.selectRefinements(navigationSelector) };
     this.updateState();
   }
 
