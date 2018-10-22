@@ -1,10 +1,26 @@
-import { tag, Tag } from '@storefront/core';
+import { tag, StoreSections, Tag } from '@storefront/core';
 
 @tag('gb-clear-all-refinements', require('./index.html'))
 class ClearAllRefinements {
-  onClick = () => this.actions.resetRefinements(true);
+  init() {
+    switch (this.props.storeSection) {
+      case StoreSections.PAST_PURCHASES:
+        this.state = { onClick: () => this.actions.resetPastPurchaseRefinements(true) };
+        break;
+      case StoreSections.SEARCH:
+        this.state = { onClick: () => this.actions.resetRefinements(true) };
+        break;
+    }
+  }
 }
 
-interface ClearAllRefinements extends Tag {}
+interface ClearAllRefinements extends Tag<ClearAllRefinements.Props, ClearAllRefinements.State> {}
+namespace ClearAllRefinements {
+  export interface Props extends Tag.Props {}
+
+  export interface State {
+    onClick(): void;
+  }
+}
 
 export default ClearAllRefinements;

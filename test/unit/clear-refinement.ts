@@ -1,3 +1,4 @@
+import { StoreSections } from '@storefront/core';
 import ClearRefinement from '../../src/clear-refinement';
 import suite from './_suite';
 
@@ -8,21 +9,47 @@ suite('ClearRefinement', ({ expect, spy, itShouldProvideAlias }) => {
 
   itShouldProvideAlias(ClearRefinement, 'clearRefinement');
 
-  describe('constructor()', () => {
-    describe('state', () => {
-      describe('onClick()', () => {
-        it('should call actions.deselectRefinement()', () => {
-          const field = 'brand';
-          const index = 13;
-          const deselectRefinement = spy();
-          clearRefinement.props = { field, index };
-          clearRefinement.actions = <any>{ deselectRefinement };
+  describe('init()', () => {
+    const field = 'brand';
+    const index = 13;
 
-          clearRefinement.state.onClick();
+    beforeEach(() => {
+      clearRefinement.props = { field, index };
+      clearRefinement.state = <any>{};
+      clearRefinement.actions = <any>{
+        deselectRefinement: spy(),
+        deselectPastPurchaseRefinement: spy(),
+      };
+    });
 
-          expect(deselectRefinement).to.be.calledWith(field, index);
-        });
-      });
+    it('should set state.action to actions.deselectRefinement() if storeSection is search', () => {
+      clearRefinement.props.storeSection = StoreSections.SEARCH;
+      const deselectRefinement = (clearRefinement.actions.deselectRefinement = spy());
+
+      clearRefinement.init();
+      clearRefinement.state.onClick();
+
+      expect(deselectRefinement).to.be.calledWithExactly(field, index);
+    });
+
+    it('should set state.action to actions.deselectPastPurchaseRefinement() if storeSection is pastpurchases', () => {
+      clearRefinement.props.storeSection = StoreSections.PAST_PURCHASES;
+      const deselectPastPurchaseRefinement = (clearRefinement.actions.deselectPastPurchaseRefinement = spy());
+
+      clearRefinement.init();
+      clearRefinement.state.onClick();
+
+      expect(deselectPastPurchaseRefinement).to.be.calledWithExactly(field, index);
+    });
+  });
+
+  describe('onClick()', () => {
+    it('should call state.action()', () => {
+      clearRefinement.state = { onClick: spy() };
+
+      clearRefinement.state.onClick();
+
+      expect(clearRefinement.state.onClick).to.be.called;
     });
   });
 });

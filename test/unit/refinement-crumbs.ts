@@ -1,4 +1,4 @@
-import { Events, Selectors } from '@storefront/core';
+import { Events, Selectors, StoreSections } from '@storefront/core';
 import RefinementCrumbs from '../../src/refinement-crumbs';
 import suite from './_suite';
 
@@ -9,21 +9,43 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
   itShouldProvideAlias(RefinementCrumbs, 'refinementCrumbs');
 
-  describe('constructor()', () => {
-    describe('state', () => {
-      it('should have initial value', () => {
-        expect(refinementCrumbs.state).to.eql({ refinements: [] });
-      });
-    });
-  });
+  describe('init()', () => {
+    const field = 'material';
 
-  describe('onBeforeMount()', () => {
+    beforeEach(() => {
+      refinementCrumbs.props = { field };
+    });
+
     it('should call updateState()', () => {
       const updateState = (refinementCrumbs.updateState = spy());
+      refinementCrumbs.select = spy();
+      refinementCrumbs.props.storeSection = StoreSections.DEFAULT;
 
-      refinementCrumbs.onBeforeMount();
+      refinementCrumbs.init();
 
       expect(updateState).to.be.called;
+    });
+
+    it('should set the navigationSelector function to select navigation if the storeSection is search', () => {
+      refinementCrumbs.props.storeSection = StoreSections.SEARCH;
+      refinementCrumbs.updateState = () => null;
+      const select = (refinementCrumbs.select = spy());
+
+      refinementCrumbs.init();
+      refinementCrumbs.state.navigationSelector(field);
+
+      expect(select).to.be.calledWithExactly(Selectors.navigation, field);
+    });
+
+    it('should set the navigationSelector function to select pastPurchaseNavigation if the storeSection is pastPurchases', () => {
+      refinementCrumbs.props.storeSection = StoreSections.PAST_PURCHASES;
+      refinementCrumbs.updateState = () => null;
+      const select = (refinementCrumbs.select = spy());
+
+      refinementCrumbs.init();
+      refinementCrumbs.state.navigationSelector(field);
+
+      expect(select).to.be.calledWithExactly(Selectors.pastPurchaseNavigation, field);
     });
   });
 
@@ -38,9 +60,15 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
   });
 
   describe('updateState()', () => {
-    it('should update field', () => {
-      const field = 'material';
+    const field = 'material';
+    const selectedRefinementsUpdated = 'selected_refinements_updated';
+
+    beforeEach(() => {
       refinementCrumbs.props = { field };
+      refinementCrumbs.state = <any>{ selectedRefinementsUpdated };
+    });
+
+    it('should update field', () => {
       refinementCrumbs.previousField = 'brand';
       refinementCrumbs.flux = { off: () => null, on: () => null } as any;
       refinementCrumbs.selectRefinements = () => null;
@@ -50,29 +78,28 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
       expect(refinementCrumbs.previousField).to.eq(field);
     });
 
-    it('should remove old listener', () => {
+    it('should remove selectedRefinementsUpdated listener', () => {
       const off = spy();
       const previousField = (refinementCrumbs.previousField = refinementCrumbs.previousField = 'brand');
-      refinementCrumbs.props = { field: 'material' };
+      refinementCrumbs.props.storeSection = StoreSections.SEARCH;
       refinementCrumbs.flux = { off, on: () => null } as any;
       refinementCrumbs.selectRefinements = () => null;
 
       refinementCrumbs.updateState();
 
-      expect(off).to.be.calledWith(`${Events.SELECTED_REFINEMENTS_UPDATED}:${previousField}`);
+      expect(off).to.be.calledWith(`${refinementCrumbs.state.selectedRefinementsUpdated}:${previousField}`);
     });
 
-    it('should listen for SELECTED_REFINEMENTS_UPDATED', () => {
-      const field = 'material';
+    it('should listen for selectedRefinementsUpdated', () => {
       const on = spy();
-      refinementCrumbs.props = { field };
+      refinementCrumbs.props.storeSection = StoreSections.SEARCH;
       refinementCrumbs.previousField = 'brand';
       refinementCrumbs.flux = { on, off: () => null } as any;
       refinementCrumbs.selectRefinements = () => null;
 
       refinementCrumbs.updateState();
 
-      expect(on).to.be.calledWith(`${Events.SELECTED_REFINEMENTS_UPDATED}:${field}`);
+      expect(on).to.be.calledWith(`${refinementCrumbs.state.selectedRefinementsUpdated}:${field}`);
     });
   });
 
@@ -80,6 +107,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
     it('should update state', () => {
       const newState: any = { a: 'b' };
       const set = (refinementCrumbs.set = spy());
+      refinementCrumbs.state = <any>{ navigationSelector: () => null };
       refinementCrumbs.selectRefinements = () => newState;
 
       refinementCrumbs.updateRefinements();
@@ -89,10 +117,14 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
   });
 
   describe('selectRefinements()', () => {
+    const state = { a: 'b' };
+
+    beforeEach(() => {
+      refinementCrumbs.state = <any>{ navigationSelector: () => {} };
+    });
+
     it('should return build navigation state', () => {
-      const label = 'Colour';
       const range = true;
-      const state = { a: 'b' };
       const selected = [0, 2];
       const navigation = {
         a: 'b',
@@ -101,11 +133,10 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
         refinements: [{ a: 'b' }, { c: 'd' }, { e: 'f' }],
       };
       const field = 'colour';
-      const select = (refinementCrumbs.select = spy(() => navigation));
       refinementCrumbs.props = { field };
       refinementCrumbs.flux = { store: { getState: () => state } } as any;
-
-      const refinements = refinementCrumbs.selectRefinements();
+      const navigationSelector = (refinementCrumbs.state.navigationSelector = spy((field) => navigation));
+      const refinements = refinementCrumbs.selectRefinements(navigationSelector);
 
       expect(refinements).to.eql({
         a: 'b',
@@ -117,20 +148,18 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
           { field, range, index: 2, selected: true, e: 'f' },
         ],
       });
-      expect(select).to.be.calledWith(Selectors.navigation, field);
+      expect(navigationSelector).to.be.calledWith(field);
     });
 
     it('should return undefined if navigation is undefined', () => {
       const field = 'hat';
-      const select = (refinementCrumbs.select = spy());
-      const state = { a: 'b' };
       refinementCrumbs.props = { field };
       refinementCrumbs.flux = { store: { getState: () => state } } as any;
-
-      const refinements = refinementCrumbs.selectRefinements();
+      const navigationSelector = (refinementCrumbs.state.navigationSelector = spy((field) => {}));
+      const refinements = refinementCrumbs.selectRefinements(navigationSelector);
 
       expect(refinements).to.be.undefined;
-      expect(select).to.be.calledWith(Selectors.navigation, field);
+      expect(navigationSelector).to.be.calledWith(field);
     });
   });
 });

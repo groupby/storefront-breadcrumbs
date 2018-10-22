@@ -1,4 +1,4 @@
-import { configurable, provide, tag, Events, Selectors, Tag } from '@storefront/core';
+import { configurable, provide, tag, Events, Selectors, Store, StoreSections, Tag } from '@storefront/core';
 
 @configurable
 @provide<Breadcrumbs.Props, Breadcrumbs.State>(
@@ -29,10 +29,20 @@ class Breadcrumbs {
   }
 
   init() {
-    this.subscribe(Events.ORIGINAL_QUERY_UPDATED, this.updateOriginalQuery);
-    this.subscribe(Events.CORRECTED_QUERY_UPDATED, this.updateCorrectedQuery);
-    this.subscribe(Events.NAVIGATIONS_UPDATED, this.updateFields);
-    this.state = { fields: this.getFields(), originalQuery: this.select(Selectors.query) };
+    let navigationsSelector;
+    switch (this.props.storeSection) {
+      case StoreSections.PAST_PURCHASES:
+        this.subscribe(Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED, this.updateFields);
+        navigationsSelector = () => this.select(Selectors.pastPurchaseNavigations);
+        break;
+      case StoreSections.SEARCH:
+        this.subscribe(Events.ORIGINAL_QUERY_UPDATED, this.updateOriginalQuery);
+        this.subscribe(Events.CORRECTED_QUERY_UPDATED, this.updateCorrectedQuery);
+        this.subscribe(Events.NAVIGATIONS_UPDATED, this.updateFields);
+        navigationsSelector = () => this.select(Selectors.navigations);
+        break;
+    }
+    this.state = { navigationsSelector, fields: this.getFields(navigationsSelector()), originalQuery: this.select(Selectors.query) };
   }
 
   onBeforeMount() {
@@ -48,10 +58,10 @@ class Breadcrumbs {
 
   updateCorrectedQuery = (correctedQuery: string) => this.set({ correctedQuery });
 
-  updateFields = () => this.set({ fields: this.getFields() });
+  updateFields = () => this.set({ fields: this.getFields(this.state.navigationsSelector()) });
 
-  getFields() {
-    return this.select(Selectors.navigations)
+  getFields(navigations: Store.Navigation[]) {
+    return navigations
       .filter((navigation) => navigation.selected.length !== 0)
       .map((navigation) => navigation.field);
   }
@@ -72,6 +82,7 @@ namespace Breadcrumbs {
     fields: string[];
     originalQuery: string;
     correctedQuery?: string;
+    navigationsSelector?: () => Store.Navigation[];
   }
 }
 
