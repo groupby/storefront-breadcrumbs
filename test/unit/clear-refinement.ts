@@ -10,11 +10,10 @@ suite('ClearRefinement', ({ expect, spy, itShouldProvideAlias }) => {
   itShouldProvideAlias(ClearRefinement, 'clearRefinement');
 
   describe('init()', () => {
-    let field, index;
+    const field = 'brand';
+    const index = 13;
 
     beforeEach(() => {
-      field = 'brand';
-      index = 13;
       clearRefinement.props = { field, index };
       clearRefinement.state = <any>{};
       clearRefinement.actions = <any>{
