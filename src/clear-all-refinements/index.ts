@@ -12,6 +12,10 @@ class ClearAllRefinements {
         break;
     }
   }
+
+  onClick() {
+    this.state.onClick();
+  }
 }
 
 interface ClearAllRefinements extends Tag<ClearAllRefinements.Props, ClearAllRefinements.State> {}
