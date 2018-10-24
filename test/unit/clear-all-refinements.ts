@@ -1,6 +1,6 @@
+import { StoreSections } from '@storefront/core';
 import ClearAllRefinements from '../../src/clear-all-refinements';
 import suite from './_suite';
-import { StoreSections } from '@storefront/core';
 
 suite('ClearAllRefinements', ({ expect, spy, stub }) => {
   let clearAllRefinements: ClearAllRefinements;
@@ -38,10 +38,10 @@ suite('ClearAllRefinements', ({ expect, spy, stub }) => {
   });
 
   describe('onClick()', () => {
-    it('should call state.action()', () => {
+    it('should call state.onClick()', () => {
       clearAllRefinements.state = { onClick: spy() };
 
-      clearAllRefinements.state.onClick();
+      clearAllRefinements.onClick();
 
       expect(clearAllRefinements.state.onClick).to.be.called;
     });
