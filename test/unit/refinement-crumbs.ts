@@ -14,6 +14,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
     beforeEach(() => {
       refinementCrumbs.props = { field };
+      refinementCrumbs.state = <any>{};
     });
 
     it('should call updateState()', () => {
@@ -26,25 +27,27 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
       expect(updateState).to.be.called;
     });
 
-    it('should set the navigationSelector function to select navigation if the storeSection is search', () => {
+    it('should set the navigationSelector and selectedRefinementsUpdated based on SEARCH storeSection', () => {
+      const select = (refinementCrumbs.select = spy());
       refinementCrumbs.props.storeSection = StoreSections.SEARCH;
       refinementCrumbs.updateState = () => null;
-      const select = (refinementCrumbs.select = spy());
-
       refinementCrumbs.init();
+
       refinementCrumbs.state.navigationSelector(field);
 
+      expect(refinementCrumbs.state.selectedRefinementsUpdated).to.eq(Events.SELECTED_REFINEMENTS_UPDATED);
       expect(select).to.be.calledWithExactly(Selectors.navigation, field);
     });
 
-    it('should set the navigationSelector function to select pastPurchaseNavigation if the storeSection is pastPurchases', () => {
+    it('should set the navigationSelector and selectedRefinementsUpdated base on PAST_PURCHASES storeSection', () => {
+      const select = (refinementCrumbs.select = spy());
       refinementCrumbs.props.storeSection = StoreSections.PAST_PURCHASES;
       refinementCrumbs.updateState = () => null;
-      const select = (refinementCrumbs.select = spy());
-
       refinementCrumbs.init();
+
       refinementCrumbs.state.navigationSelector(field);
 
+      expect(refinementCrumbs.state.selectedRefinementsUpdated).to.eq(Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED);
       expect(select).to.be.calledWithExactly(Selectors.pastPurchaseNavigation, field);
     });
   });
@@ -70,7 +73,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
 
     it('should update field', () => {
       refinementCrumbs.previousField = 'brand';
-      refinementCrumbs.flux = { off: () => null, on: () => null } as any;
+      refinementCrumbs.flux = <any>{ off: () => null, on: () => null };
       refinementCrumbs.selectRefinements = () => null;
 
       refinementCrumbs.updateState();
@@ -82,7 +85,7 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
       const off = spy();
       const previousField = (refinementCrumbs.previousField = refinementCrumbs.previousField = 'brand');
       refinementCrumbs.props.storeSection = StoreSections.SEARCH;
-      refinementCrumbs.flux = { off, on: () => null } as any;
+      refinementCrumbs.flux = <any>{ off, on: () => null };
       refinementCrumbs.selectRefinements = () => null;
 
       refinementCrumbs.updateState();
@@ -94,12 +97,39 @@ suite('RefinementCrumbs', ({ expect, spy, stub, itShouldProvideAlias }) => {
       const on = spy();
       refinementCrumbs.props.storeSection = StoreSections.SEARCH;
       refinementCrumbs.previousField = 'brand';
-      refinementCrumbs.flux = { on, off: () => null } as any;
+      refinementCrumbs.flux = <any>{ on, off: () => null };
       refinementCrumbs.selectRefinements = () => null;
 
       refinementCrumbs.updateState();
 
       expect(on).to.be.calledWith(`${refinementCrumbs.state.selectedRefinementsUpdated}:${field}`);
+    });
+
+    it('should call selectRefinements to update state', () => {
+      const navigationSelector = () => null;
+      const selectRefinements = refinementCrumbs.selectRefinements = spy();
+      refinementCrumbs.state = { ...refinementCrumbs.state, navigationSelector };
+      refinementCrumbs.flux = <any>{ on: () => null, off: () => null };
+
+      refinementCrumbs.updateState();
+
+      expect(selectRefinements).to.be.calledWith(navigationSelector);
+    });
+
+    it('should not update listeners or property if field has not changed, but it should always update', () => {
+      const on = spy();
+      const off = spy();
+      const navigationSelector = () => null;
+      const selectRefinements = refinementCrumbs.selectRefinements = spy();
+      refinementCrumbs.state = { ...refinementCrumbs.state, navigationSelector };
+      refinementCrumbs.previousField = field;
+      refinementCrumbs.flux = <any>{ on, off };
+
+      refinementCrumbs.updateState();
+
+      expect(on).to.not.be.called;
+      expect(off).to.not.be.called;
+      expect(selectRefinements).to.be.calledWith(navigationSelector);
     });
   });
 
