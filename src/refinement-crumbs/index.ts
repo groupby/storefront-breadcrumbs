@@ -6,19 +6,17 @@ class RefinementCrumbs {
   previousField: string;
 
   init() {
-    let selectedRefinementsUpdated;
-    let navigationSelector;
     switch (this.props.storeSection) {
       case StoreSections.PAST_PURCHASES:
-        selectedRefinementsUpdated = Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED;
-        navigationSelector = (field) => this.select(Selectors.pastPurchaseNavigation, field);
+        this.state.selectedRefinementsUpdated = Events.PAST_PURCHASE_SELECTED_REFINEMENTS_UPDATED;
+        this.state.navigationSelector = (field) => this.select(Selectors.pastPurchaseNavigation, field);
         break;
       case StoreSections.SEARCH:
-        selectedRefinementsUpdated = Events.SELECTED_REFINEMENTS_UPDATED;
-        navigationSelector = (field) => this.select(Selectors.navigation, field);
+        this.state.selectedRefinementsUpdated = Events.SELECTED_REFINEMENTS_UPDATED;
+        this.state.navigationSelector = (field) => this.select(Selectors.navigation, field);
         break;
     }
-    this.state = { selectedRefinementsUpdated, navigationSelector, ...this.selectRefinements(navigationSelector) };
+
     this.updateState();
   }
 
@@ -31,9 +29,13 @@ class RefinementCrumbs {
   }
 
   updateState() {
-    this.flux.off(`${this.state.selectedRefinementsUpdated}:${this.previousField}`, this.updateRefinements);
-    this.flux.on(`${this.state.selectedRefinementsUpdated}:${this.props.field}`, this.updateRefinements);
-    this.previousField = this.props.field;
+    if (this.props.field !== this.previousField) {
+      this.flux.off(`${this.state.selectedRefinementsUpdated}:${this.previousField}`, this.updateRefinements);
+      this.flux.on(`${this.state.selectedRefinementsUpdated}:${this.props.field}`, this.updateRefinements);
+      this.previousField = this.props.field;
+    }
+
+    this.state = { ...this.state, ...this.selectRefinements(this.state.navigationSelector) };
   }
 
   updateRefinements = () => this.set(this.selectRefinements(this.state.navigationSelector));
