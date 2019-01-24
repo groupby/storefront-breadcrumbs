@@ -1,4 +1,10 @@
-# StoreFront breadcrumbs
+# [MOVED] StoreFront breadcrumbs
+
+* * *
+
+**This repository has been moved to <https://github.com/groupby/storefront>.**
+
+* * *
 
 StoreFront `<gb-breadcrumbs>` component
 
